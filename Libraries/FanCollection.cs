@@ -57,7 +57,6 @@ public class FanCollection
                     0.0036640965527022,
                     80.7774784631891
                 },
-
                 OctaveNoiseCoefficients250 = new List<double>()
                 {
                     -6.3280380665082E-21,
@@ -88,7 +87,6 @@ public class FanCollection
                     0.00649851312394153,
                     81.2023515031343
                 },
-
                 OctaveNoiseCoefficients2000 = new List<double>()
                 {
                     -6.3280380665082E-21,
@@ -109,7 +107,6 @@ public class FanCollection
                     0.00198400211970034,
                     80.7807772176639
                 },
-
                 OctaveNoiseCoefficients8000 = new List<double>()
                 {
                     -6.91846255419214E-21,
@@ -221,7 +218,6 @@ public class FanCollection
                     -0.00413334407614593,
                     81.7266371627445
                 },
-
                 OctaveNoiseCoefficients8000 = new List<double>()
                 {
                     -1.28639079482538E-21,
@@ -231,7 +227,8 @@ public class FanCollection
                     -7.8231726924654E-07,
                     -0.000149039574325027,
                     78.4207201290831
-                }
+                },
+                Id = Guid.NewGuid()
             }
         };
 }
