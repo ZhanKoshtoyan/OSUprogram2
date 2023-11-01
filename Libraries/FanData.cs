@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Libraries;
+﻿namespace Libraries;
 
 /// <summary>
 ///     Информация о вентиляторе
@@ -39,14 +36,11 @@ public record FanData
     ///     Коэффиуиенты полинома 6-й степени Pv(Q) - полного давления от объемного воздуха
     /// </summary>
 
-
     public required List<double> TotalPressureCoefficients { get; init; }
 
     /// <summary>
     ///     Коэффиуиенты полинома 6-й степени Pv(N) - мощности вентилятора в рабочей точке от объемного воздуха
     /// </summary>
-
-
     public required List<double> PowerCoefficients { get; init; }
 
     /// <summary>
@@ -60,24 +54,42 @@ public record FanData
     public required double NominalPower { get; init; }
 
     /// <summary>
-    ///     Коэффициенты полинома 6-й степени Lw(Q) - Уровень звуковой мощности частот {63, 125, 250, 500, 1к, 2к, 4к, 8к [Гц]}
-    ///     от объемного
-    ///     воздуха
+    ///     Коэффициенты полинома 6-й степени Lw(Q) для уровня звуковой мощности на частоте 63Гц от объемног овоздуха
     /// </summary>
-
     public required List<double> OctaveNoiseCoefficients63 { get; init; }
 
+    /// <summary>
+    ///     Коэффициенты полинома 6-й степени Lw(Q) для уровня звуковой мощности на частоте 125Гц от объемного воздуха
+    /// </summary>
     public required List<double> OctaveNoiseCoefficients125 { get; init; }
 
+    /// <summary>
+    ///     Коэффициенты полинома 6-й степени Lw(Q) для уровня звуковой мощности на частоте 250Гц от объемного воздуха
+    /// </summary>
     public required List<double> OctaveNoiseCoefficients250 { get; init; }
 
+    /// <summary>
+    ///     Коэффициенты полинома 6-й степени Lw(Q) для уровня звуковой мощности на частоте 500Гц от объемного воздуха
+    /// </summary>
     public required List<double> OctaveNoiseCoefficients500 { get; init; }
 
+    /// <summary>
+    ///     Коэффициенты полинома 6-й степени Lw(Q) для уровня звуковой мощности на частоте 1000Гц от объемного воздуха
+    /// </summary>
     public required List<double> OctaveNoiseCoefficients1000 { get; init; }
 
+    /// <summary>
+    ///     Коэффициенты полинома 6-й степени Lw(Q) для уровня звуковой мощности на частоте 2000Гц от объемного воздуха
+    /// </summary>
     public required List<double> OctaveNoiseCoefficients2000 { get; init; }
 
+    /// <summary>
+    ///     Коэффициенты полинома 6-й степени Lw(Q) для уровня звуковой мощности на частоте 4000Гц от объемного воздуха
+    /// </summary>
     public required List<double> OctaveNoiseCoefficients4000 { get; init; }
 
+    /// <summary>
+    ///     Коэффициенты полинома 6-й степени Lw(Q) для уровня звуковой мощности на частоте 8000Гц от объемного воздуха
+    /// </summary>
     public required List<double> OctaveNoiseCoefficients8000 { get; init; }
 }

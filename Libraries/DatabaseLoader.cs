@@ -26,8 +26,6 @@ public static class DatabaseLoader
             }
         }*/
 
-
-
         db.Fans.AddRange(fanCollection.Fans);
 
         // db.SaveChanges();
@@ -41,26 +39,27 @@ public static class DatabaseLoader
         {
             Console.WriteLine(
                 $"\n\nТипоразмер: {f.Size}"
-                    + $"\nНаименование: {f.Name}"
-                    + $"\nСкорость вращения крыльчатки: {f.ImpellerRotationSpeed}"
-                    + $"\nМинимальный объем воздуха: {f.MinVolumeFlow}"
-                    + " м3/ч;"
-                    + $"\nМаксимальный объем воздуха: {f.MaxVolumeFlow}"
-                    + " м3/ч;"
-                    + $"\nКоэффиуиенты полинома 6-й степени Pv(Q) - полного давления от объемного воздуха: {f.TotalPressureCoefficients}"
-                    + ""
-                    + $"\nКоэффиуиенты полинома 6-й степени Pv(N) - мощности вентилятора в рабочей точке от объемного воздуха: {f.PowerCoefficients}"
-                    + ""
-                    + $"\nПлощадь сечения на входе: {f.InletCrossSection}"
-                    + " [м2]"
-                    + $"\nНоминальная мощность: {f.NominalPower}"
-                    + " [кВт]"
+                + $"\nНаименование: {f.Name}"
+                + $"\nСкорость вращения крыльчатки: {f.ImpellerRotationSpeed}"
+                + $"\nМинимальный объем воздуха: {f.MinVolumeFlow}"
+                + " м3/ч;"
+                + $"\nМаксимальный объем воздуха: {f.MaxVolumeFlow}"
+                + " м3/ч;"
+                + $"\nКоэффиуиенты полинома 6-й степени Pv(Q) - полного давления от объемного воздуха: {f.TotalPressureCoefficients}"
+                + ""
+                + $"\nКоэффиуиенты полинома 6-й степени Pv(N) - мощности вентилятора в рабочей точке от объемного воздуха: {f.PowerCoefficients}"
+                + ""
+                + $"\nПлощадь сечения на входе: {f.InletCrossSection}"
+                + " [м2]"
+                + $"\nНоминальная мощность: {f.NominalPower}"
+                + " [кВт]"
             );
         }
     }
 }
 
-public sealed class ApplicationContext : DbContext //DbContext: это класс Entity Framework определяет контекст данных, используемый для взаимодействия с базой данных
+public sealed class
+    ApplicationContext : DbContext //DbContext: это класс Entity Framework определяет контекст данных, используемый для взаимодействия с базой данных
 {
     // Если базы данных нет, то происходит создание БД.
     public ApplicationContext() => Database.EnsureCreated();

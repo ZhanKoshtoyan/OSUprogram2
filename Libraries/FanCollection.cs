@@ -10,12 +10,13 @@ public class FanCollection
         {
             new FanData
             {
+                Id = Guid.NewGuid(),
                 Size = "040",
                 Name = "ОСУ-ДУ",
                 ImpellerRotationSpeed = 2820,
                 MinVolumeFlow = 68,
                 MaxVolumeFlow = 6790,
-                TotalPressureCoefficients = new List<double>()
+                TotalPressureCoefficients = new List<double>
                 {
                     -1.78089715845477E-19,
                     3.94906840722657E-15,
@@ -25,7 +26,7 @@ public class FanCollection
                     -0.0154525722368974,
                     673.944825212064
                 },
-                PowerCoefficients = new List<double>()
+                PowerCoefficients = new List<double>
                 {
                     -2.53773204407154E-22,
                     5.4193319577496E-18,
@@ -37,7 +38,7 @@ public class FanCollection
                 },
                 InletCrossSection = 0.1256,
                 NominalPower = 0.75,
-                OctaveNoiseCoefficients63 = new List<double>()
+                OctaveNoiseCoefficients63 = new List<double>
                 {
                     -6.14671213297709E-21,
                     1.31079844703572E-16,
@@ -47,7 +48,7 @@ public class FanCollection
                     0.00462753224177455,
                     84.9159954779106
                 },
-                OctaveNoiseCoefficients125 = new List<double>()
+                OctaveNoiseCoefficients125 = new List<double>
                 {
                     -6.51454264058702E-21,
                     1.32710060105779E-16,
@@ -57,7 +58,7 @@ public class FanCollection
                     0.0036640965527022,
                     80.7774784631891
                 },
-                OctaveNoiseCoefficients250 = new List<double>()
+                OctaveNoiseCoefficients250 = new List<double>
                 {
                     -6.3280380665082E-21,
                     1.33585775972799E-16,
@@ -67,7 +68,7 @@ public class FanCollection
                     0.00437936399349243,
                     80.1321037992639
                 },
-                OctaveNoiseCoefficients500 = new List<double>()
+                OctaveNoiseCoefficients500 = new List<double>
                 {
                     -9.26207513005705E-21,
                     2.01106944887471E-16,
@@ -77,7 +78,7 @@ public class FanCollection
                     0.00793143362351284,
                     79.9113271768486
                 },
-                OctaveNoiseCoefficients1000 = new List<double>()
+                OctaveNoiseCoefficients1000 = new List<double>
                 {
                     -9.22086650949535E-21,
                     1.95357629510521E-16,
@@ -87,7 +88,7 @@ public class FanCollection
                     0.00649851312394153,
                     81.2023515031343
                 },
-                OctaveNoiseCoefficients2000 = new List<double>()
+                OctaveNoiseCoefficients2000 = new List<double>
                 {
                     -6.3280380665082E-21,
                     1.33585775972799E-16,
@@ -97,7 +98,7 @@ public class FanCollection
                     0.00437936399349243,
                     80.1321037992639
                 },
-                OctaveNoiseCoefficients4000 = new List<double>()
+                OctaveNoiseCoefficients4000 = new List<double>
                 {
                     -4.18111766792606E-21,
                     8.47123052004552E-17,
@@ -107,7 +108,7 @@ public class FanCollection
                     0.00198400211970034,
                     80.7807772176639
                 },
-                OctaveNoiseCoefficients8000 = new List<double>()
+                OctaveNoiseCoefficients8000 = new List<double>
                 {
                     -6.91846255419214E-21,
                     1.46984399433531E-16,
@@ -116,17 +117,17 @@ public class FanCollection
                     -7.55422636808502E-06,
                     0.00511581608781055,
                     76.9863162523303
-                },
-                Id = Guid.NewGuid()
+                }
             },
             new FanData
             {
+                Id = Guid.NewGuid(),
                 Size = "040",
                 Name = "ОСУ-ДУ",
                 ImpellerRotationSpeed = 2820,
                 MinVolumeFlow = 84,
                 MaxVolumeFlow = 8440,
-                TotalPressureCoefficients = new List<double>()
+                TotalPressureCoefficients = new List<double>
                 {
                     -1.40391882190154E-19,
                     4.07973805765995E-15,
@@ -136,7 +137,7 @@ public class FanCollection
                     0.445721096324641,
                     671.557184046322
                 },
-                PowerCoefficients = new List<double>()
+                PowerCoefficients = new List<double>
                 {
                     -2.55628003250976E-22,
                     7.55442353790038E-18,
@@ -148,7 +149,7 @@ public class FanCollection
                 },
                 InletCrossSection = 0.1256,
                 NominalPower = 1.1,
-                OctaveNoiseCoefficients63 = new List<double>()
+                OctaveNoiseCoefficients63 = new List<double>
                 {
                     -1.20646766123701E-21,
                     2.78905204053343E-17,
@@ -158,7 +159,7 @@ public class FanCollection
                     -4.40653694017652E-05,
                     86.4112422795434
                 },
-                OctaveNoiseCoefficients125 = new List<double>()
+                OctaveNoiseCoefficients125 = new List<double>
                 {
                     -5.59562233156906E-22,
                     9.07475778997895E-18,
@@ -168,7 +169,7 @@ public class FanCollection
                     -0.00251845052821754,
                     82.9026970648196
                 },
-                OctaveNoiseCoefficients250 = new List<double>()
+                OctaveNoiseCoefficients250 = new List<double>
                 {
                     -1.20646766123701E-21,
                     2.78905204053343E-17,
@@ -178,7 +179,7 @@ public class FanCollection
                     -4.40653694017652E-05,
                     81.4112422795434
                 },
-                OctaveNoiseCoefficients500 = new List<double>()
+                OctaveNoiseCoefficients500 = new List<double>
                 {
                     -6.51650001216414E-22,
                     1.197308258368E-17,
@@ -188,7 +189,7 @@ public class FanCollection
                     -0.00242908906164528,
                     81.5969420585426
                 },
-                OctaveNoiseCoefficients1000 = new List<double>()
+                OctaveNoiseCoefficients1000 = new List<double>
                 {
                     2.05852500322287E-22,
                     -9.24312176209533E-18,
@@ -198,7 +199,7 @@ public class FanCollection
                     -0.00366252380824962,
                     81.6895881870266
                 },
-                OctaveNoiseCoefficients2000 = new List<double>()
+                OctaveNoiseCoefficients2000 = new List<double>
                 {
                     -5.0030758045737E-22,
                     9.32369932161965E-18,
@@ -208,7 +209,7 @@ public class FanCollection
                     -0.00185329458882568,
                     81.550415233285
                 },
-                OctaveNoiseCoefficients4000 = new List<double>()
+                OctaveNoiseCoefficients4000 = new List<double>
                 {
                     1.34433213151603E-22,
                     -8.88537801000161E-18,
@@ -218,7 +219,7 @@ public class FanCollection
                     -0.00413334407614593,
                     81.7266371627445
                 },
-                OctaveNoiseCoefficients8000 = new List<double>()
+                OctaveNoiseCoefficients8000 = new List<double>
                 {
                     -1.28639079482538E-21,
                     3.01821599153012E-17,
@@ -227,8 +228,7 @@ public class FanCollection
                     -7.8231726924654E-07,
                     -0.000149039574325027,
                     78.4207201290831
-                },
-                Id = Guid.NewGuid()
+                }
             }
         };
 }
