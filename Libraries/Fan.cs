@@ -66,23 +66,27 @@ public class Fan
     ///     Объект Fan, в котором вычисляются значения свойств на основе объекта FanData
     /// </summary>
     /// <param name="data"></param>
-    /// <param name="userInput"></param>
+    /// <param name="inputVolumeFlow"></param>
+    /// <param name="inputTotalPressure"></param>
+    /// <param name="inputTemperature"></param>
+    /// <param name="inputRelativeHumidity"></param>
+    /// <param name="inputAltitude"></param>
     public Fan(
         FanData data,
-        UserInput userInput
+        double inputVolumeFlow,
+        double inputTotalPressure,
+        double inputTemperature,
+        double inputRelativeHumidity = 0,
+        double inputAltitude = 20
     )
     {
         Data = data;
-        _inputVolumeFlow = userInput.VolumeFlow;
-        _inputTotalPressure = userInput.TotalPressure;
-        if (userInput.Altitude == 0)
-        {
-            userInput.Altitude = 20;
-        }
+        _inputVolumeFlow = inputVolumeFlow;
+        _inputTotalPressure = inputTotalPressure;
         _air = new HumidAir().WithState(
-            InputHumidAir.Altitude(userInput.Altitude.Meters()),
-            InputHumidAir.Temperature(userInput.Temperature.DegreesCelsius()),
-            InputHumidAir.RelativeHumidity(userInput.RelativeHumidity.Percent())
+            InputHumidAir.Altitude(inputAltitude.Meters()),
+            InputHumidAir.Temperature(inputTemperature.DegreesCelsius()),
+            InputHumidAir.RelativeHumidity(inputRelativeHumidity.Percent())
         );
     }
 

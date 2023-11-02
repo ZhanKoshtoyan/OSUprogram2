@@ -13,5 +13,5 @@ public record UserInput
     public required double TotalPressureDeviation { get; init; }
     public required double Temperature { get; init; }
     public required double RelativeHumidity { get; init; }
-    public required double Altitude { get; set; }
+    public required double Altitude { get; init; }
 }
