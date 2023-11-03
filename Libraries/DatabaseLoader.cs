@@ -45,9 +45,9 @@ public static class DatabaseLoader
                 + " м3/ч;"
                 + $"\nМаксимальный объем воздуха: {f.MaxVolumeFlow}"
                 + " м3/ч;"
-                + $"\nКоэффиуиенты полинома 6-й степени Pv(Q) - полного давления от объемного воздуха: {f.TotalPressureCoefficients}"
+                + $"\nКоэффициенты полинома 6-й степени Pv(Q) - полного давления от объемного воздуха: {f.TotalPressureCoefficients}"
                 + ""
-                + $"\nКоэффиуиенты полинома 6-й степени Pv(N) - мощности вентилятора в рабочей точке от объемного воздуха: {f.PowerCoefficients}"
+                + $"\nКоэффициенты полинома 6-й степени Pv(N) - мощности вентилятора в рабочей точке от объемного воздуха: {f.PowerCoefficients}"
                 + ""
                 + $"\nПлощадь сечения на входе: {f.InletCrossSection}"
                 + " [м2]"
@@ -64,11 +64,9 @@ public sealed class
     // Если базы данных нет, то происходит создание БД.
     public ApplicationContext() => Database.EnsureCreated();
 
-    public DbSet<FanData> Fans => Set<FanData>(); /*DbSet/DbSet<TEntity>: представляет набор объектов,
-    которые
-    хранятся в
-    базе данных с типом данных "User"*/
-
+    // DbSet/DbSet<TEntity>: представляет набор объектов, которые хранятся в базе данных с типом данных "User"
+    public DbSet<FanData> Fans => Set<FanData>();
+    public DbSet<PolynomialType> PolynomialValues => Set<PolynomialType>();
     protected override void OnConfiguring(
         DbContextOptionsBuilder optionsBuilder
     ) //DbContextOptionsBuilder: устанавливает параметры подключения
