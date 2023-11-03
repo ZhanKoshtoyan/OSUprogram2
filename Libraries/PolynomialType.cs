@@ -2,7 +2,6 @@
 
 public record PolynomialType
 {
-    public Guid Id { get; init; }
     public required double SixthCoefficient { get; init; }
     public required double FifthCoefficient { get; init; }
     public required double FourthCoefficient { get; init; }
@@ -10,6 +9,4 @@ public record PolynomialType
     public required double SecondCoefficient { get; init; }
     public required double FirstCoefficient { get; init; }
     public required double ZeroCoefficient { get; init; }
-    public int FanDataId { get; init; }
-    public FanData? FanData { get; init; }
 }

@@ -61,11 +61,15 @@ public static class DatabaseLoader
 public sealed class ApplicationContext : DbContext //DbContext: это класс Entity Framework определяет контекст данных, используемый для взаимодействия с базой данных
 {
     // Если базы данных нет, то происходит создание БД.
-    public ApplicationContext() => Database.EnsureCreated();
+    public ApplicationContext()
+    {
+        Database.EnsureDeleted();
+        Database.EnsureCreated();
+    }
 
     // DbSet/DbSet<TEntity>: представляет набор объектов, которые хранятся в базе данных с типом данных "User"
     public DbSet<FanData> FanDatas => Set<FanData>();
-    public DbSet<PolynomialType> PolynomialValues => Set<PolynomialType>();
+
 
     protected override void OnConfiguring(
         DbContextOptionsBuilder optionsBuilder
@@ -76,10 +80,6 @@ public sealed class ApplicationContext : DbContext //DbContext: это клас�
         //Пример обращения к БД на сервере: (@"localhost;port=4532;database=db;username=root;password=12345")
         optionsBuilder.UseSqlite("Data Source=helloapp.db");
 
-        /*protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Ignore<>();
-        }*/
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -88,12 +88,34 @@ public sealed class ApplicationContext : DbContext //DbContext: это клас�
         modelBuilder.Entity<FanData>().HasIndex(data => data.Id);
         modelBuilder
             .Entity<FanData>()
-            .HasOne(f => f.TotalPressureCoefficients)
-            .WithOne(p => p.FanData)
-            .HasForeignKey<PolynomialType>(fp => fp.Id);
-        // .Ignore(data => data.OctaveNoiseCoefficients63);
-        modelBuilder.Entity<FanData>().ToTable("FanDatas");
-        modelBuilder.Entity<PolynomialType>().ToTable("FanDatas");
+            .OwnsOne(f => f.TotalPressureCoefficients);
+        modelBuilder
+            .Entity<FanData>()
+            .OwnsOne(f => f.PowerCoefficients);
+        modelBuilder
+            .Entity<FanData>()
+            .OwnsOne(f => f.OctaveNoiseCoefficients63);
+        modelBuilder
+            .Entity<FanData>()
+            .OwnsOne(f => f.OctaveNoiseCoefficients125);
+        modelBuilder
+            .Entity<FanData>()
+            .OwnsOne(f => f.OctaveNoiseCoefficients250);
+        modelBuilder
+            .Entity<FanData>()
+            .OwnsOne(f => f.OctaveNoiseCoefficients500);
+        modelBuilder
+            .Entity<FanData>()
+            .OwnsOne(f => f.OctaveNoiseCoefficients1000);
+        modelBuilder
+            .Entity<FanData>()
+            .OwnsOne(f => f.OctaveNoiseCoefficients2000);
+        modelBuilder
+            .Entity<FanData>()
+            .OwnsOne(f => f.OctaveNoiseCoefficients4000);
+        modelBuilder
+            .Entity<FanData>()
+            .OwnsOne(f => f.OctaveNoiseCoefficients8000);
         base.OnModelCreating(modelBuilder);
     }
 }

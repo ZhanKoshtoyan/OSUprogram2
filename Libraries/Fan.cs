@@ -63,6 +63,11 @@ public class Fan
     private readonly double _inputVolumeFlow;
 
     /// <summary>
+    ///     Информация о вентиляторе
+    /// </summary>
+    public FanData Data { get; }
+
+    /// <summary>
     ///     Объект Fan, в котором вычисляются значения свойств на основе объекта FanData
     /// </summary>
     /// <param name="data"></param>
@@ -320,10 +325,6 @@ public class Fan
         }
     }
 
-    /// <summary>
-    ///     Информация о вентиляторе
-    /// </summary>
-    public FanData Data { get; }
 
     /// <summary>
     ///     Расчет значения по известным коэффициентам полинома по методу наименьших квадратов
