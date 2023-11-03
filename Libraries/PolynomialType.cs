@@ -1,9 +1,8 @@
-﻿
-namespace Libraries;
+﻿namespace Libraries;
 
 public record PolynomialType
 {
-    public required Guid Id { get; init; }
+    public Guid Id { get; init; }
     public required double SixthCoefficient { get; init; }
     public required double FifthCoefficient { get; init; }
     public required double FourthCoefficient { get; init; }
@@ -11,6 +10,6 @@ public record PolynomialType
     public required double SecondCoefficient { get; init; }
     public required double FirstCoefficient { get; init; }
     public required double ZeroCoefficient { get; init; }
-    public required int FanDataId { get; init; }
-    public required FanData? FanData { get; init; }
+    public int FanDataId { get; init; }
+    public FanData? FanData { get; init; }
 }

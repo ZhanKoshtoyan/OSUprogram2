@@ -67,10 +67,7 @@ public class Fan
     /// </summary>
     /// <param name="data"></param>
     /// <param name="userInput"></param>
-    public Fan(
-        FanData data,
-        UserInput userInput
-    )
+    public Fan(FanData data, UserInput userInput)
     {
         Data = data;
         _inputVolumeFlow = userInput.VolumeFlow;
@@ -102,9 +99,7 @@ public class Fan
     public double TotalPressure =>
         Math.Round(
             AirDensityHasChanged(
-                CalculatePolynomialCoefficients(
-                    Data.TotalPressureCoefficients.ToArray()
-                )
+                CalculatePolynomialCoefficients(Data.TotalPressureCoefficients)
             ),
             0
         );
@@ -115,9 +110,9 @@ public class Fan
     public double StaticPressure =>
         Math.Round(
             TotalPressure
-            - 0.5
-            * AirInStandardConditions.Density.KilogramsPerCubicMeter
-            * Math.Pow(AirVelocity, 2),
+                - 0.5
+                    * AirInStandardConditions.Density.KilogramsPerCubicMeter
+                    * Math.Pow(AirVelocity, 2),
             0
         );
 
@@ -128,7 +123,7 @@ public class Fan
         Math.Round(
             AirDensityHasChanged(
                 CalculatePolynomialCoefficients(
-                    Data.PowerCoefficients.ToArray()
+                    Data.PowerCoefficients
                 )
             ),
             2
@@ -158,49 +153,89 @@ public class Fan
     ///     Уровень звуковой мощности на частоте 63Гц
     /// </summary>
     public double OctaveNoise63 =>
-        Math.Round(CalculatePolynomialCoefficients(Data.OctaveNoiseCoefficients63.ToArray()), 1);
+        Math.Round(
+            CalculatePolynomialCoefficients(
+                Data.OctaveNoiseCoefficients63
+            ),
+            1
+        );
 
     /// <summary>
     ///     Уровень звуковой мощности на частоте 125Гц
     /// </summary>
     public double OctaveNoise125 =>
-        Math.Round(CalculatePolynomialCoefficients(Data.OctaveNoiseCoefficients125.ToArray()), 1);
+        Math.Round(
+            CalculatePolynomialCoefficients(
+                Data.OctaveNoiseCoefficients125
+            ),
+            1
+        );
 
     /// <summary>
     ///     Уровень звуковой мощности на частоте 250Гц
     /// </summary>
     public double OctaveNoise250 =>
-        Math.Round(CalculatePolynomialCoefficients(Data.OctaveNoiseCoefficients250.ToArray()), 1);
+        Math.Round(
+            CalculatePolynomialCoefficients(
+                Data.OctaveNoiseCoefficients250
+            ),
+            1
+        );
 
     /// <summary>
     ///     Уровень звуковой мощности на частоте 500Гц
     /// </summary>
     public double OctaveNoise500 =>
-        Math.Round(CalculatePolynomialCoefficients(Data.OctaveNoiseCoefficients500.ToArray()), 1);
+        Math.Round(
+            CalculatePolynomialCoefficients(
+                Data.OctaveNoiseCoefficients500
+            ),
+            1
+        );
 
     /// <summary>
     ///     Уровень звуковой мощности на частоте 1000Гц
     /// </summary>
     public double OctaveNoise1000 =>
-        Math.Round(CalculatePolynomialCoefficients(Data.OctaveNoiseCoefficients1000.ToArray()), 1);
+        Math.Round(
+            CalculatePolynomialCoefficients(
+                Data.OctaveNoiseCoefficients1000
+            ),
+            1
+        );
 
     /// <summary>
     ///     Уровень звуковой мощности на частоте 2000Гц
     /// </summary>
     public double OctaveNoise2000 =>
-        Math.Round(CalculatePolynomialCoefficients(Data.OctaveNoiseCoefficients2000.ToArray()), 1);
+        Math.Round(
+            CalculatePolynomialCoefficients(
+                Data.OctaveNoiseCoefficients2000
+            ),
+            1
+        );
 
     /// <summary>
     ///     Уровень звуковой мощности на частоте 4000Гц
     /// </summary>
     public double OctaveNoise4000 =>
-        Math.Round(CalculatePolynomialCoefficients(Data.OctaveNoiseCoefficients4000.ToArray()), 1);
+        Math.Round(
+            CalculatePolynomialCoefficients(
+                Data.OctaveNoiseCoefficients4000
+            ),
+            1
+        );
 
     /// <summary>
     ///     Уровень звуковой мощности на частоте 8000Гц
     /// </summary>
     public double OctaveNoise8000 =>
-        Math.Round(CalculatePolynomialCoefficients(Data.OctaveNoiseCoefficients8000.ToArray()), 1);
+        Math.Round(
+            CalculatePolynomialCoefficients(
+                Data.OctaveNoiseCoefficients8000
+            ),
+            1
+        );
 
     //____________________________________________________________________________________________________________________________
 
@@ -208,49 +243,57 @@ public class Fan
     ///     Уровень звуковой мощности частоты 63Гц с поправкой на частотную коррекцию спектра А {ГОСТ 53188.1-2019, стр.15,
     ///     п.5.5.8, табл.3}
     /// </summary>
-    private double OctaveNoiseA63 => Math.Round(OctaveNoise63 + NoiseCorrectionA63, 1);
+    private double OctaveNoiseA63 =>
+        Math.Round(OctaveNoise63 + NoiseCorrectionA63, 1);
 
     /// <summary>
     ///     Уровень звуковой мощности частоты 125Гц с поправкой на частотную коррекцию спектра А {ГОСТ 53188.1-2019, стр.15,
     ///     п.5.5.8, табл.3}
     /// </summary>
-    private double OctaveNoiseA125 => Math.Round(OctaveNoise125 + NoiseCorrectionA125, 1);
+    private double OctaveNoiseA125 =>
+        Math.Round(OctaveNoise125 + NoiseCorrectionA125, 1);
 
     /// <summary>
     ///     Уровень звуковой мощности частоты 250Гц с поправкой на частотную коррекцию спектра А {ГОСТ 53188.1-2019, стр.15,
     ///     п.5.5.8, табл.3}
     /// </summary>
-    private double OctaveNoiseA250 => Math.Round(OctaveNoise250 + NoiseCorrectionA250, 1);
+    private double OctaveNoiseA250 =>
+        Math.Round(OctaveNoise250 + NoiseCorrectionA250, 1);
 
     /// <summary>
     ///     Уровень звуковой мощности частоты 500Гц с поправкой на частотную коррекцию спектра А {ГОСТ 53188.1-2019, стр.15,
     ///     п.5.5.8, табл.3}
     /// </summary>
-    private double OctaveNoiseA500 => Math.Round(OctaveNoise500 + NoiseCorrectionA500, 1);
+    private double OctaveNoiseA500 =>
+        Math.Round(OctaveNoise500 + NoiseCorrectionA500, 1);
 
     /// <summary>
     ///     Уровень звуковой мощности частоты 1000Гц с поправкой на частотную коррекцию спектра А {ГОСТ 53188.1-2019, стр.15,
     ///     п.5.5.8, табл.3}
     /// </summary>
-    private double OctaveNoiseA1000 => Math.Round(OctaveNoise1000 + NoiseCorrectionA1000, 1);
+    private double OctaveNoiseA1000 =>
+        Math.Round(OctaveNoise1000 + NoiseCorrectionA1000, 1);
 
     /// <summary>
     ///     Уровень звуковой мощности частоты 2000Гц с поправкой на частотную коррекцию спектра А {ГОСТ 53188.1-2019, стр.15,
     ///     п.5.5.8, табл.3}
     /// </summary>
-    private double OctaveNoiseA2000 => Math.Round(OctaveNoise2000 + NoiseCorrectionA2000, 1);
+    private double OctaveNoiseA2000 =>
+        Math.Round(OctaveNoise2000 + NoiseCorrectionA2000, 1);
 
     /// <summary>
     ///     Уровень звуковой мощности частоты 4000Гц с поправкой на частотную коррекцию спектра А {ГОСТ 53188.1-2019, стр.15,
     ///     п.5.5.8, табл.3}
     /// </summary>
-    private double OctaveNoiseA4000 => Math.Round(OctaveNoise4000 + NoiseCorrectionA4000, 1);
+    private double OctaveNoiseA4000 =>
+        Math.Round(OctaveNoise4000 + NoiseCorrectionA4000, 1);
 
     /// <summary>
     ///     Уровень звуковой мощности частоты 8000Гц с поправкой на частотную коррекцию спектра А {ГОСТ 53188.1-2019, стр.15,
     ///     п.5.5.8, табл.3}
     /// </summary>
-    private double OctaveNoiseA8000 => Math.Round(OctaveNoise8000 + NoiseCorrectionA8000, 1);
+    private double OctaveNoiseA8000 =>
+        Math.Round(OctaveNoise8000 + NoiseCorrectionA8000, 1);
 
     /// <summary>
     ///     Суммарный уровень звуковой мощности частот: 63, 125, 250, 500, 1к, 2к, 4к, 8к [Гц]
@@ -287,17 +330,19 @@ public class Fan
     /// </summary>
     /// <param name="coefficients"></param>
     /// <returns></returns>
-    private double CalculatePolynomialCoefficients(double[] coefficients) =>
+    private double CalculatePolynomialCoefficients(
+        PolynomialType coefficients
+    ) =>
         //Переворачиваем одномерный массив
         // Array.Reverse(coefficients);
         //Подставляем коэффициенты в уравнение
-        coefficients[0] * Math.Pow(_inputVolumeFlow, 6)
-        + coefficients[1] * Math.Pow(_inputVolumeFlow, 5)
-        + coefficients[2] * Math.Pow(_inputVolumeFlow, 4)
-        + coefficients[3] * Math.Pow(_inputVolumeFlow, 3)
-        + coefficients[4] * Math.Pow(_inputVolumeFlow, 2)
-        + coefficients[5] * Math.Pow(_inputVolumeFlow, 1)
-        + coefficients[6];
+        coefficients.SixthCoefficient * Math.Pow(_inputVolumeFlow, 6)
+        + coefficients.FifthCoefficient * Math.Pow(_inputVolumeFlow, 5)
+        + coefficients.FourthCoefficient * Math.Pow(_inputVolumeFlow, 4)
+        + coefficients.ThirdCoefficient * Math.Pow(_inputVolumeFlow, 3)
+        + coefficients.SecondCoefficient * Math.Pow(_inputVolumeFlow, 2)
+        + coefficients.FirstCoefficient * Math.Pow(_inputVolumeFlow, 1)
+        + coefficients.ZeroCoefficient;
 
     /// <summary>
     ///     Расчет параметра {Pv, N} на новую плотность воздуха

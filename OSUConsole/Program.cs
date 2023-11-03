@@ -6,7 +6,7 @@ using ValidationResult = FluentValidation.Results.ValidationResult;
 Console.WriteLine("Введите объемный расход воздуха, [м3/ч]: ");
 
 // var inputVolumeFlow = Console.ReadLine();
-var inputVolumeFlow = "-4000";
+var inputVolumeFlow = "4000";
 var result = double.TryParse(
     inputVolumeFlow.Replace(".", ","),
     out var doubleVolumeFlow
@@ -119,6 +119,7 @@ var validator = new UserInputValidator();
 
 var resultValidation = validator.Validate(userInput);
 var allMessages = resultValidation.ToString();
+
 // validator.ValidateAndThrow(userInput);
 
 if (!string.IsNullOrEmpty(allMessages))
@@ -130,9 +131,9 @@ var fansList = new FanCollection().Fans;
 var sortFans = SortFans.Sort(fansList, userInput);
 ToPrint.Print(sortFans, userInput);
 
-/*var f = true;
+var f = true;
 
 if (f)
 {
     await DatabaseLoader.LoadDataToDatabase();
-}*/
+}
