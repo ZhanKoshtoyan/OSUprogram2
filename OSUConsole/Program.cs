@@ -1,7 +1,4 @@
-﻿using FluentValidation;
-using Libraries;
-using System.ComponentModel.DataAnnotations;
-using ValidationResult = FluentValidation.Results.ValidationResult;
+﻿using Libraries;
 
 Console.WriteLine("Введите объемный расход воздуха, [м3/ч]: ");
 
