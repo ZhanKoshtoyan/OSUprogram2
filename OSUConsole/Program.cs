@@ -3,7 +3,7 @@
 Console.WriteLine("Введите объемный расход воздуха, [м3/ч]: ");
 
 // var inputVolumeFlow = Console.ReadLine();
-var inputVolumeFlow = "4000";
+var inputVolumeFlow = "5000";
 var result = double.TryParse(
     inputVolumeFlow.Replace(".", ","),
     out var doubleVolumeFlow
@@ -19,7 +19,7 @@ if (!result)
 Console.WriteLine("Введите полное давление воздуха, [Па]: ");
 
 // var inputTotalPressure = Console.ReadLine();
-var inputTotalPressure = "300";
+var inputTotalPressure = "350";
 result = double.TryParse(
     inputTotalPressure.Replace(".", ","),
     out var doubleTotalPressure
@@ -37,7 +37,7 @@ Console.WriteLine(
 );
 
 // var inputTotalPressureDeviation = Console.ReadLine();
-var inputTotalPressureDeviation = "50";
+var inputTotalPressureDeviation = "30";
 result = double.TryParse(
     inputTotalPressureDeviation.Replace(".", ","),
     out var doubleTotalPressureDeviation
@@ -124,13 +124,22 @@ if (!string.IsNullOrEmpty(allMessages))
     throw new ArgumentException(allMessages);
 }
 
-var fansList = new FanCollection().Fans;
+// var fansList = new FanCollection().Fans;
+List<FanData>? fansList = await DatabaseLoader.DownloadDataFromDatabase();
+bool loadPosition = true;
+if (loadPosition)
+{
+    fansList = await ExcelReader.Load();
+};
+
 var sortFans = SortFans.Sort(fansList, userInput);
 ToPrint.Print(sortFans, userInput);
 
-var f = true;
+
+
+/*var f = true;
 
 if (f)
 {
-    await DatabaseLoader.LoadDataToDatabase();
-}
+    await DatabaseLoader.UploadDataToDatabase();
+}*/

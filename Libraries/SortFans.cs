@@ -12,7 +12,7 @@ public abstract class SortFans
     /// <param name="userInputValidated"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentException"></exception>
-    public static List<Fan> Sort(IEnumerable<FanData> fansList, UserInput userInputValidated)
+    public static List<Fan> Sort(List<FanData>? fansList, UserInput userInputValidated)
     {
         var sortMaxMinFansList = fansList
             .Where(

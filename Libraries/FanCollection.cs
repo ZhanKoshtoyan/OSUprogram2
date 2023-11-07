@@ -5,7 +5,8 @@
 /// </summary>
 public class FanCollection
 {
-    public List<FanData> Fans { get; } =
+    public List<FanData>? Fans { get; init; }
+        /*=
         new()
         {
             new FanData
@@ -230,5 +231,6 @@ public class FanCollection
                     ZeroCoefficient = 78.4207201290831
                 }
             }
-        };
+        };*/
+
 }

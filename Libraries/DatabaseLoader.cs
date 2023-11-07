@@ -4,10 +4,24 @@ namespace Libraries;
 
 public static class DatabaseLoader
 {
-    public static async Task LoadDataToDatabase()
+    public static async Task UploadDataToDatabase(List<FanData>? fanCollection)
     {
         await using var db = new ApplicationContext();
 
+        // var fanCollection = new FanCollection();
+
+        db.DataFans.AddRange(fanCollection);
+
+        // db.SaveChanges();
+        await db.SaveChangesAsync();
+        Console.WriteLine("Объекты успешно сохранены");
+    }
+
+    public static async Task<List<FanData>?> DownloadDataFromDatabase()
+    {
+        await using var db = new ApplicationContext();
+
+        /*
         var fanCollection = new FanCollection();
 
         db.DataFans.AddRange(fanCollection.Fans);
@@ -15,10 +29,12 @@ public static class DatabaseLoader
         // db.SaveChanges();
         await db.SaveChangesAsync();
         Console.WriteLine("Объекты успешно сохранены");
+        */
 
         // получаем объекты из бд и выводим на консоль
         var fans = db.DataFans.ToList();
-        Console.WriteLine("Список объектов:");
+        return fans;
+        /*Console.WriteLine("Список объектов:");
         foreach (var f in fans)
         {
             Console.WriteLine(
@@ -38,7 +54,7 @@ public static class DatabaseLoader
                 + $"\nНоминальная мощность: {f.NominalPower}"
                 + " [кВт]"
             );
-        }
+        }*/
     }
 }
 
