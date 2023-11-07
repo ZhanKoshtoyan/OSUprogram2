@@ -9,22 +9,6 @@ public static class DatabaseLoader
         await using var db = new ApplicationContext();
 
         var fanCollection = new FanCollection();
-        /*foreach (var fanData in fanCollection.Fans)
-        {
-            foreach (var fanDataProperty in typeof(FanData).GetProperties())
-            {
-                if (fanDataProperty.PropertyType == typeof(double[]))
-                {
-                    var fanDataPropertyValue = (double[]) fanDataProperty.GetValue(fanData)!;
-
-                    // Преобразование значений типа double[] в строку
-                    var fanDataPropertyStringValue = string.Join(", ", fanDataPropertyValue);
-
-                    // Установка преобразованного значения обратно в свойство
-                    fanDataProperty.SetValue(fanData, fanDataPropertyStringValue);
-                }
-            }
-        }*/
 
         db.DataFans.AddRange(fanCollection.Fans);
 
@@ -58,10 +42,10 @@ public static class DatabaseLoader
     }
 }
 
-public sealed class
-    ApplicationContext : DbContext //DbContext: это класс Entity Framework определяет контекст данных, используемый для взаимодействия с базой данных
+//DbContext: это класс Entity Framework определяет контекст данных, используемый для взаимодействия с базой данных
+public sealed class ApplicationContext : DbContext
 {
-    // Если базы данных нет, то происходит создание БД.
+    // При каждом вызове происходит удаление и создание БД.
     public ApplicationContext()
     {
         Database.EnsureDeleted();
@@ -85,6 +69,8 @@ public sealed class
     {
         modelBuilder.Entity<FanData>().HasKey(data => data.Id);
         modelBuilder.Entity<FanData>().HasIndex(data => data.Id);
+
+        //Определяем зависимость между объектом FanData и зависимым типом
         modelBuilder
             .Entity<FanData>()
             .OwnsOne(f => f.TotalPressureCoefficients);
@@ -113,6 +99,8 @@ public sealed class
         modelBuilder
             .Entity<FanData>()
             .OwnsOne(f => f.OctaveNoiseCoefficients8000);
+
+        //вызов метода базового класса. Это позволяет сохранить базовую функциональность при дополнительной настройке модели данных FanData (выше).
         base.OnModelCreating(modelBuilder);
     }
 }

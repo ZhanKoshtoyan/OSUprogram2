@@ -90,7 +90,7 @@ public class Fan
     public FanData Data { get; }
 
     /// <summary>
-    ///     Нормальное плотность воздуха при 20[°C], 50[%], 20 [метров] над ур.моря
+    ///     Нормальное плотность воздуха при 20[°C], 50[%], 20 [метрах] над ур.моря
     /// </summary>
     private static IHumidAir AirInStandardConditions =>
         new HumidAir().WithState(
@@ -334,8 +334,6 @@ public class Fan
     private double CalculatePolynomialCoefficients(
         PolynomialType coefficients
     ) =>
-        //Переворачиваем одномерный массив
-        // Array.Reverse(coefficients);
         //Подставляем коэффициенты в уравнение
         coefficients.SixthCoefficient * Math.Pow(_inputVolumeFlow, 6)
         + coefficients.FifthCoefficient * Math.Pow(_inputVolumeFlow, 5)

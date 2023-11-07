@@ -71,7 +71,7 @@ Console.WriteLine(
 );
 
 // var inputRelativeHumidity = Console.ReadLine();
-var inputRelativeHumidity = "50";
+var inputRelativeHumidity = "";
 result = double.TryParse(
     inputRelativeHumidity.Replace(".", ","),
     out var doubleRelativeHumidity
@@ -88,7 +88,7 @@ if (!result && !string.IsNullOrEmpty(inputRelativeHumidity))
 Console.WriteLine("Введите высоту над уровнем моря (не обязательно), [м]: ");
 
 // var inputAltitude = Console.ReadLine();
-var inputAltitude = "20";
+var inputAltitude = "";
 result = double.TryParse(
     inputAltitude.Replace(".", ","),
     out var doubleAltitude

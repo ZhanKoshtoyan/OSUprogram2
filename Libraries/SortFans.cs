@@ -1,9 +1,17 @@
-﻿using System.Collections;
-
-namespace Libraries;
+﻿namespace Libraries;
 
 public abstract class SortFans
 {
+    /// <summary>
+    ///     В этом методе происходит проверка находится ли объем воздуха, который ввел пользователь, в диапазоне
+    ///     производительности вентилятора. Если находится, то вентилятор добавляется в список. Следом происходит вторая
+    ///     проверка: если допустимая погрешность подбора по полному давлению воздуха, которую ввел пользователь, удовлетворяет
+    ///     выччисленную погрешность, то такой вентилятор и все его вычисленные свойства добавляется в список.
+    /// </summary>
+    /// <param name="fansList"></param>
+    /// <param name="userInputValidated"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
     public static List<Fan> Sort(IEnumerable<FanData> fansList, UserInput userInputValidated)
     {
         var sortMaxMinFansList = fansList
