@@ -2,10 +2,12 @@
 
 namespace Libraries;
 
-public abstract class SortFans
+public abstract class SortFans : IEnumerable
 {
     public static List<Fan> Sort(IEnumerable<FanData> fansList, UserInput userInputValidated)
     {
+
+
         var sortMaxMinFansList = fansList
             .Where(
                 f =>
@@ -45,4 +47,7 @@ public abstract class SortFans
 
         return sortDeviationFansList;
     }
+
+    public IEnumerator GetEnumerator() =>
+        throw new NotImplementedException();
 }
