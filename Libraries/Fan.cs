@@ -63,11 +63,6 @@ public class Fan
     private readonly double _inputVolumeFlow;
 
     /// <summary>
-    ///     Информация о вентиляторе
-    /// </summary>
-    public FanData Data { get; }
-
-    /// <summary>
     ///     Объект Fan, в котором вычисляются значения свойств на основе объекта FanData
     /// </summary>
     /// <param name="data"></param>
@@ -81,12 +76,18 @@ public class Fan
         {
             userInput.Altitude = 20;
         }
+
         _air = new HumidAir().WithState(
             InputHumidAir.Altitude(userInput.Altitude.Meters()),
             InputHumidAir.Temperature(userInput.Temperature.DegreesCelsius()),
             InputHumidAir.RelativeHumidity(userInput.RelativeHumidity.Percent())
         );
     }
+
+    /// <summary>
+    ///     Информация о вентиляторе
+    /// </summary>
+    public FanData Data { get; }
 
     /// <summary>
     ///     Нормальное плотность воздуха при 20[°C], 50[%], 20 [метров] над ур.моря
@@ -115,9 +116,9 @@ public class Fan
     public double StaticPressure =>
         Math.Round(
             TotalPressure
-                - 0.5
-                    * AirInStandardConditions.Density.KilogramsPerCubicMeter
-                    * Math.Pow(AirVelocity, 2),
+            - 0.5
+            * AirInStandardConditions.Density.KilogramsPerCubicMeter
+            * Math.Pow(AirVelocity, 2),
             0
         );
 
@@ -324,7 +325,6 @@ public class Fan
             return Math.Round(10 * Math.Log10(sum), 1);
         }
     }
-
 
     /// <summary>
     ///     Расчет значения по известным коэффициентам полинома по методу наименьших квадратов
