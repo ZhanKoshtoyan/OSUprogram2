@@ -126,7 +126,7 @@ if (!string.IsNullOrEmpty(allMessages))
 
 // var fansList = new FanCollection().Fans;
 List<FanData>? fansList = await DatabaseLoader.DownloadDataFromDatabase();
-bool loadPosition = true;
+bool loadPosition = false;
 if (loadPosition)
 {
     fansList = await ExcelReader.Load();

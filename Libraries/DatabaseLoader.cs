@@ -64,7 +64,7 @@ public sealed class ApplicationContext : DbContext
     // При каждом вызове происходит удаление и создание БД.
     public ApplicationContext()
     {
-        Database.EnsureDeleted();
+        // Database.EnsureDeleted();
         Database.EnsureCreated();
     }
 
