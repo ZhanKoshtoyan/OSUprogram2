@@ -125,17 +125,17 @@ if (!string.IsNullOrEmpty(allMessages))
 }
 
 // var fansList = new FanCollection().Fans;
-List<FanData>? fansList = await DatabaseLoader.DownloadDataFromDatabase();
-bool loadPosition = false;
+var fansList = await DatabaseLoader.DownloadDataFromDatabase();
+var loadPosition = false;
 if (loadPosition)
 {
     fansList = await ExcelReader.Load();
-};
+}
+
+;
 
 var sortFans = SortFans.Sort(fansList, userInput);
 ToPrint.Print(sortFans, userInput);
-
-
 
 /*var f = true;
 

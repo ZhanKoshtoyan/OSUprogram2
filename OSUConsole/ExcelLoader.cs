@@ -1,10 +1,11 @@
-﻿using OfficeOpenXml;
+﻿using Libraries;
+using OfficeOpenXml;
 
-namespace Libraries;
+namespace OSUConsole;
 
-public class ExcelReader
+public static class ExcelLoader
 {
-    public static async Task<List<FanData>?> Load()
+        public static async Task<List<FanData>?> Load()
     {
         // Если loadPositions == true, то запросить адрес файла у пользователя
         string? filePath = null;
@@ -157,4 +158,4 @@ public class ExcelReader
         await DatabaseLoader.UploadDataToDatabase(fanCollection.Fans);
         return fanCollection.Fans;
     }
-}
+    }
