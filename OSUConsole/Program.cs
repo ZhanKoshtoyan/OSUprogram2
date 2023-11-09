@@ -102,6 +102,22 @@ if (!result && !string.IsNullOrEmpty(inputAltitude))
     );
 }
 
+//-----------------------------------------------------------------------------------------------------------
+//Ввод адреса к файлу Json
+Console.WriteLine(
+    "Укажите путь файла Json (по умолчанию: \"C:\\My ProjectCSharp\\OSUprogram2\\OSUprogram2\\OSUConsole\\bin\\Debug\\net7.0\\Fans.json\"):"
+);
+string? pathJsonFile = null;
+var input = Console.ReadLine();
+
+if (input == "")
+{
+    pathJsonFile =
+        "C:\\My ProjectCSharp\\OSUprogram2\\OSUprogram2\\OSUConsole\\bin\\Debug\\net7.0\\Fans.json";
+}
+
+//-----------------------------------------------------------------------------------------------------------
+
 var userInput = new UserInput
 {
     VolumeFlow = doubleVolumeFlow,
@@ -112,8 +128,6 @@ var userInput = new UserInput
     Altitude = doubleAltitude
 };
 
-//**** 1. Почему проверка проходит только по первому значению, а по остальным нет? на консоль выводится только 1 ошибка ввода.
-//**** 2. Почему после вывода ошибки на консоль программа продолжает работу и сообщает об ошибках по другим строкам программы?
 var validator = new UserInputValidator();
 
 validator.ValidateAndThrow(userInput);
@@ -126,21 +140,7 @@ if (!string.IsNullOrEmpty(allMessages))
     throw new ArgumentException(allMessages);
 }*/
 
-List<FanData>? fansList;
-
-var loadPosition = true;
-if (loadPosition)
-{
-    fansList = ExcelReader.Load();
-
-    // await DatabaseLoader.UploadDataToDatabase(fansList);
-    JsonLoader.Upload(fansList);
-}
-
-// fansList = await DatabaseLoader.DownloadDataFromDatabase();
-fansList = JsonLoader.Download();
+var fansList = JsonLoader.Download(pathJsonFile);
 
 var sortFans = SortFans.Sort(fansList, userInput);
 ToPrint.Print(sortFans, userInput);
-
-
