@@ -2,9 +2,9 @@
 
 namespace Libraries;
 
-public class ExcelReader
+public static class ExcelReader
 {
-    public static async Task<List<FanData>?> Load()
+    public static List<FanData>? Load()
     {
         // Если loadPositions == true, то запросить адрес файла у пользователя
         string? filePath = null;
@@ -154,7 +154,6 @@ public class ExcelReader
         // Закрытие файла
         package.Dispose();
 
-        await DatabaseLoader.UploadDataToDatabase(fanCollection.Fans);
         return fanCollection.Fans;
     }
 }

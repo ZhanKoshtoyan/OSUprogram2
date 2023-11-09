@@ -1,9 +1,11 @@
-﻿using Libraries;
+﻿using FluentValidation;
+using Libraries;
+using System.Text.Json;
 
 Console.WriteLine("Введите объемный расход воздуха, [м3/ч]: ");
 
 // var inputVolumeFlow = Console.ReadLine();
-var inputVolumeFlow = "5000";
+var inputVolumeFlow = "4000";
 var result = double.TryParse(
     inputVolumeFlow.Replace(".", ","),
     out var doubleVolumeFlow
@@ -114,32 +116,31 @@ var userInput = new UserInput
 //**** 2. Почему после вывода ошибки на консоль программа продолжает работу и сообщает об ошибках по другим строкам программы?
 var validator = new UserInputValidator();
 
-var resultValidation = validator.Validate(userInput);
-var allMessages = resultValidation.ToString();
+validator.ValidateAndThrow(userInput);
 
-// validator.ValidateAndThrow(userInput);
+/*var resultValidation = validator.Validate(userInput);
+var allMessages = resultValidation.ToString();
 
 if (!string.IsNullOrEmpty(allMessages))
 {
     throw new ArgumentException(allMessages);
-}
+}*/
 
-// var fansList = new FanCollection().Fans;
-var fansList = await DatabaseLoader.DownloadDataFromDatabase();
-var loadPosition = false;
+List<FanData>? fansList;
+
+var loadPosition = true;
 if (loadPosition)
 {
-    fansList = await ExcelReader.Load();
+    fansList = ExcelReader.Load();
+
+    // await DatabaseLoader.UploadDataToDatabase(fansList);
+    JsonLoader.Upload(fansList);
 }
 
-;
+// fansList = await DatabaseLoader.DownloadDataFromDatabase();
+fansList = JsonLoader.Download();
 
 var sortFans = SortFans.Sort(fansList, userInput);
 ToPrint.Print(sortFans, userInput);
 
-/*var f = true;
 
-if (f)
-{
-    await DatabaseLoader.UploadDataToDatabase();
-}*/
