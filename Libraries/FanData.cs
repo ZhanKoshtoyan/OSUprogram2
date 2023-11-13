@@ -12,15 +12,36 @@ public record FanData
     /// </summary>
     public required string Size { get; init; }
 
-    /// <summary>
-    ///     Наименование
+    /*/// <summary>
+    /// Длина корпуса. Допустимые значения: ("1" - полногабаритный; "2" - короткий)
     /// </summary>
-    public required string Name { get; init; }
+    public required string CaseLength { get; init; }*/
+
+    /*/// <summary>
+    /// Температура перемещаемой среды, [°C]. Допустимые значения: 300 или 400°C.
+    /// </summary>
+    public required string TemperatureFan { get; init; }*/
+
+    /// <summary>
+    ///     Направление вращения рабочего колеса. Допустимые значения: "RRO" - поток на мотор, "LRO" - поток на колесо или
+    ///     "REV" - реверс.
+    /// </summary>
+    public required string ImpellerRotationDirection { get; init; }
+
+    /// <summary>
+    ///     Номинальная мощность, [кВт]
+    /// </summary>
+    public required double NominalPower { get; init; }
 
     /// <summary>
     ///     Скорость вращения крыльчатки, [об/мин]
     /// </summary>
     public required int ImpellerRotationSpeed { get; init; }
+
+    /*/// <summary>
+    /// Материал корпуса. Допустимые значения: "ZN" - оцинкованная сталь, "NR" - нержавеющая сталь или "KR" - кислотостойкая нержавеющая сталь.
+    /// </summary>
+    public required string CaseMaterial { get; init; }*/
 
     /// <summary>
     ///     Минимальный объем воздуха, [м3/ч]
@@ -47,11 +68,6 @@ public record FanData
     ///     Площадь сечения на входе, [м2]
     /// </summary>
     public required double InletCrossSection { get; init; }
-
-    /// <summary>
-    ///     Номинальная мощность, [кВт]
-    /// </summary>
-    public required double NominalPower { get; init; }
 
     /// <summary>
     ///     Коэффициенты полинома 6-й степени Lw(Q) для уровня звуковой мощности на частоте 63Гц от объемног овоздуха

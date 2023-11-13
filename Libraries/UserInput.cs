@@ -31,4 +31,18 @@ public record UserInput
     ///     Высота над уровнем моря, которую ввел пользователь (по умолчанию = 20); [м]
     /// </summary>
     public required double Altitude { get; set; }
+
+    public required int Size { get; init; }
+
+    public required int CaseLength { get; init; }
+
+    public required int TemperatureFan { get; init; }
+
+    public required string? ImpellerRotationDirection { get; init; }
+
+    public required double NominalPower { get; init; }
+
+    public required int ImpellerRotationSpeed { get; init; }
+
+    public required string? CaseMaterial { get; init; }
 }

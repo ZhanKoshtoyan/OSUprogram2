@@ -77,6 +77,28 @@ public class Fan
             userInput.Altitude = 20;
         }
 
+        var selectedTemperatureFan = userInput.TemperatureFan == 0 ? "ххх" : userInput.TemperatureFan.ToString();
+        var selectedSize = userInput.Size == 0 ? "ххх" : userInput.Size.ToString("D3");
+        var selectedCaseLength = userInput.CaseLength == 0 ? "х" : userInput.CaseLength.ToString();
+        var selectedImpellerRotationDirection =
+            userInput.ImpellerRotationDirection == "" ? "RRO" : userInput.ImpellerRotationDirection;
+        var selectedNominalPower =
+            userInput.NominalPower == 0 ? "хххх" : (userInput.NominalPower * 100).ToString("0000");
+        var selectedCaseMaterial = userInput.CaseMaterial == "" ? "хх" : userInput.CaseMaterial;
+        var roundedImpellerRotationSpeed = userInput.ImpellerRotationSpeed == 0
+            ? (Math.Round((double) data.ImpellerRotationSpeed / 500) * 500).ToString("0000")
+            : (Math.Round((double) userInput.ImpellerRotationSpeed / 500) * 500).ToString("0000");
+
+        Name = string.Format("ОСУ-ДУ.{0}.{1}.{2}.{3}.{4}.{5}.{6}.Y2",
+            selectedTemperatureFan,
+            selectedSize,
+            selectedCaseLength,
+            selectedImpellerRotationDirection,
+            selectedNominalPower,
+            roundedImpellerRotationSpeed,
+            selectedCaseMaterial
+        );
+
         _air = new HumidAir().WithState(
             InputHumidAir.Altitude(userInput.Altitude.Meters()),
             InputHumidAir.Temperature(userInput.Temperature.DegreesCelsius()),
@@ -88,6 +110,8 @@ public class Fan
     ///     Информация о вентиляторе
     /// </summary>
     public FanData Data { get; }
+
+    public string Name { get; }
 
     /// <summary>
     ///     Нормальное плотность воздуха при 20[°C], 50[%], 20 [метрах] над ур.моря
@@ -139,7 +163,7 @@ public class Fan
     ///     Расчетный полный КПД вентилятора, [%]
     /// </summary>
     public double Efficiency =>
-        Math.Round(_inputVolumeFlow / 3600 * TotalPressure / (Power * 1000), 2);
+        Math.Round(_inputVolumeFlow / 3600 * TotalPressure / (Power * 1000) * 100, 1);
 
     /// <summary>
     ///     Скорость воздуха, [м/с]

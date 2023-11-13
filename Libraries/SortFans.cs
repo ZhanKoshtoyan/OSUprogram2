@@ -14,7 +14,7 @@ public abstract class SortFans
     /// <exception cref="ArgumentException"></exception>
     public static List<Fan> Sort(List<FanData>? fansList, UserInput userInputValidated)
     {
-        var sortMaxMinFansList = fansList
+        var sortInputFansList = fansList!
             .Where(
                 f =>
                     userInputValidated.VolumeFlow >= f.MinVolumeFlow
@@ -22,14 +22,46 @@ public abstract class SortFans
             )
             .ToList();
 
-        if (sortMaxMinFansList.Count == 0)
+        if (sortInputFansList.Count == 0)
         {
             throw new ArgumentException(
                 $"Объем воздуха {userInputValidated.VolumeFlow} [м3/ч] выходит за границы производительности вентиляторов. Вентиляторы не могут быть подобраны."
             );
         }
 
-        var sortDeviationFansList = sortMaxMinFansList
+        //------------------------------------------------------------------------------------------------------------
+        if (userInputValidated.Size != 0)
+        {
+            sortInputFansList = sortInputFansList.Where(f => userInputValidated.Size.ToString("D3") == f.Size)
+                .ToList();
+        }
+
+        if (userInputValidated.ImpellerRotationDirection != "")
+        {
+            sortInputFansList = sortInputFansList
+                .Where(f => userInputValidated.ImpellerRotationDirection == f.ImpellerRotationDirection).ToList();
+        }
+
+        if (userInputValidated.NominalPower != 0)
+        {
+            sortInputFansList = sortInputFansList
+                .Where(f => Math.Abs(userInputValidated.NominalPower - f.NominalPower) < 0.05).ToList();
+        }
+
+        if (userInputValidated.ImpellerRotationSpeed != 0)
+        {
+            sortInputFansList = sortInputFansList
+                .Where(f => Math.Abs(userInputValidated.ImpellerRotationSpeed - Math.Round(
+                            (double) f.ImpellerRotationSpeed
+                            / 500
+                        ) * 500
+                    ) < 0.05
+                ).ToList();
+        }
+
+        //------------------------------------------------------------------------------------------------------------
+
+        var sortDeviationFansList = sortInputFansList
             .Select(
                 elementFanData =>
                     new Fan(
@@ -51,6 +83,8 @@ public abstract class SortFans
             );
         }
 
-        return sortDeviationFansList;
+        var orderedNumbers = sortDeviationFansList.OrderBy(f => Math.Abs(f.TotalPressureDeviation));
+
+        return new List<Fan>(orderedNumbers);
     }
 }
