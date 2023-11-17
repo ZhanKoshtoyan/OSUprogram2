@@ -77,19 +77,31 @@ public class Fan
             userInput.Altitude = 20;
         }
 
-        var selectedTemperatureFan = userInput.TemperatureFan == 0 ? "ххх" : userInput.TemperatureFan.ToString();
-        var selectedSize = userInput.Size == 0 ? "ххх" : userInput.Size.ToString("D3");
-        var selectedCaseLength = userInput.CaseLength == 0 ? "х" : userInput.CaseLength.ToString();
+        var selectedTemperatureFan =
+            userInput.FanOperatingTemperature == 0
+                ? "ххх"
+                : userInput.FanOperatingTemperature.ToString();
+        var selectedSize = userInput.Size == 0
+            ? "ххх"
+            : userInput.Size.ToString()!.PadLeft(3, '0');
+        var selectedCaseLength =
+            userInput.FanBodyLength == 0 ? "х" : userInput.FanBodyLength.ToString();
         var selectedImpellerRotationDirection =
             userInput.ImpellerRotationDirection == "" ? "RRO" : userInput.ImpellerRotationDirection;
         var selectedNominalPower =
-            userInput.NominalPower == 0 ? "хххх" : (userInput.NominalPower * 100).ToString("0000");
-        var selectedCaseMaterial = userInput.CaseMaterial == "" ? "хх" : userInput.CaseMaterial;
-        var roundedImpellerRotationSpeed = userInput.ImpellerRotationSpeed == 0
-            ? (Math.Round((double) data.ImpellerRotationSpeed / 500) * 500).ToString("0000")
-            : (Math.Round((double) userInput.ImpellerRotationSpeed / 500) * 500).ToString("0000");
+            userInput.NominalPower == 0
+                ? "хххх"
+                : ((int) userInput.NominalPower * 100).ToString().PadLeft(4, '0');
+        var selectedCaseMaterial =
+            userInput.CaseExecutionMaterial == "" ? "хх" : userInput.CaseExecutionMaterial;
+        var roundedImpellerRotationSpeed =
+            userInput.ImpellerRotationSpeed == 0
+                ?
+                data.NominalImpellerRotationSpeed.ToString("0000")
+                : userInput.ImpellerRotationSpeed.ToString("0000");
 
-        Name = string.Format("ОСУ-ДУ.{0}.{1}.{2}.{3}.{4}.{5}.{6}.Y2",
+        Name = string.Format(
+            "ОСУ-ДУ.{0}.{1}.{2}.{3}.{4}.{5}.{6}.Y2",
             selectedTemperatureFan,
             selectedSize,
             selectedCaseLength,
@@ -102,7 +114,9 @@ public class Fan
         _air = new HumidAir().WithState(
             InputHumidAir.Altitude(userInput.Altitude.Meters()),
             InputHumidAir.Temperature(userInput.Temperature.DegreesCelsius()),
-            InputHumidAir.RelativeHumidity(userInput.RelativeHumidity.Percent())
+            InputHumidAir.RelativeHumidity(
+                userInput.RelativeHumidity?.Percent() ?? 0.Percent()
+            )
         );
     }
 
@@ -140,9 +154,9 @@ public class Fan
     public double StaticPressure =>
         Math.Round(
             TotalPressure
-            - 0.5
-            * AirInStandardConditions.Density.KilogramsPerCubicMeter
-            * Math.Pow(AirVelocity, 2),
+                - 0.5
+                    * AirInStandardConditions.Density.KilogramsPerCubicMeter
+                    * Math.Pow(AirVelocity, 2),
             0
         );
 
@@ -152,9 +166,7 @@ public class Fan
     public double Power =>
         Math.Round(
             AirDensityHasChanged(
-                CalculatePolynomialCoefficients(
-                    Data.PowerCoefficients
-                )
+                CalculatePolynomialCoefficients(Data.PowerCoefficients)
             ),
             2
         );
@@ -163,7 +175,10 @@ public class Fan
     ///     Расчетный полный КПД вентилятора, [%]
     /// </summary>
     public double Efficiency =>
-        Math.Round(_inputVolumeFlow / 3600 * TotalPressure / (Power * 1000) * 100, 1);
+        Math.Round(
+            _inputVolumeFlow / 3600 * TotalPressure / (Power * 1000) * 100,
+            1
+        );
 
     /// <summary>
     ///     Скорость воздуха, [м/с]
@@ -184,9 +199,7 @@ public class Fan
     /// </summary>
     public double OctaveNoise63 =>
         Math.Round(
-            CalculatePolynomialCoefficients(
-                Data.OctaveNoiseCoefficients63
-            ),
+            CalculatePolynomialCoefficients(Data.OctaveNoiseCoefficients63),
             1
         );
 
@@ -195,9 +208,7 @@ public class Fan
     /// </summary>
     public double OctaveNoise125 =>
         Math.Round(
-            CalculatePolynomialCoefficients(
-                Data.OctaveNoiseCoefficients125
-            ),
+            CalculatePolynomialCoefficients(Data.OctaveNoiseCoefficients125),
             1
         );
 
@@ -206,9 +217,7 @@ public class Fan
     /// </summary>
     public double OctaveNoise250 =>
         Math.Round(
-            CalculatePolynomialCoefficients(
-                Data.OctaveNoiseCoefficients250
-            ),
+            CalculatePolynomialCoefficients(Data.OctaveNoiseCoefficients250),
             1
         );
 
@@ -217,9 +226,7 @@ public class Fan
     /// </summary>
     public double OctaveNoise500 =>
         Math.Round(
-            CalculatePolynomialCoefficients(
-                Data.OctaveNoiseCoefficients500
-            ),
+            CalculatePolynomialCoefficients(Data.OctaveNoiseCoefficients500),
             1
         );
 
@@ -228,9 +235,7 @@ public class Fan
     /// </summary>
     public double OctaveNoise1000 =>
         Math.Round(
-            CalculatePolynomialCoefficients(
-                Data.OctaveNoiseCoefficients1000
-            ),
+            CalculatePolynomialCoefficients(Data.OctaveNoiseCoefficients1000),
             1
         );
 
@@ -239,9 +244,7 @@ public class Fan
     /// </summary>
     public double OctaveNoise2000 =>
         Math.Round(
-            CalculatePolynomialCoefficients(
-                Data.OctaveNoiseCoefficients2000
-            ),
+            CalculatePolynomialCoefficients(Data.OctaveNoiseCoefficients2000),
             1
         );
 
@@ -250,9 +253,7 @@ public class Fan
     /// </summary>
     public double OctaveNoise4000 =>
         Math.Round(
-            CalculatePolynomialCoefficients(
-                Data.OctaveNoiseCoefficients4000
-            ),
+            CalculatePolynomialCoefficients(Data.OctaveNoiseCoefficients4000),
             1
         );
 
@@ -261,9 +262,7 @@ public class Fan
     /// </summary>
     public double OctaveNoise8000 =>
         Math.Round(
-            CalculatePolynomialCoefficients(
-                Data.OctaveNoiseCoefficients8000
-            ),
+            CalculatePolynomialCoefficients(Data.OctaveNoiseCoefficients8000),
             1
         );
 

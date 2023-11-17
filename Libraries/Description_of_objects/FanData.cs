@@ -1,12 +1,13 @@
-﻿namespace Libraries;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Libraries;
 
 /// <summary>
 ///     Информация о вентиляторе
 /// </summary>
+
 public record FanData
 {
-    public required Guid Id { get; init; }
-
     /// <summary>
     ///     Типоразмер
     /// </summary>
@@ -15,12 +16,12 @@ public record FanData
     /*/// <summary>
     /// Длина корпуса. Допустимые значения: ("1" - полногабаритный; "2" - короткий)
     /// </summary>
-    public required string CaseLength { get; init; }*/
+    public string? FanBodyLength { get; init; }*/
 
     /*/// <summary>
     /// Температура перемещаемой среды, [°C]. Допустимые значения: 300 или 400°C.
     /// </summary>
-    public required string TemperatureFan { get; init; }*/
+    public string? FanOperatingTemperature { get; init; }*/
 
     /// <summary>
     ///     Направление вращения рабочего колеса. Допустимые значения: "RRO" - поток на мотор, "LRO" - поток на колесо или
@@ -34,6 +35,11 @@ public record FanData
     public required double NominalPower { get; init; }
 
     /// <summary>
+    ///     Номинальная скорость вращения крыльчатки, [об/мин]
+    /// </summary>
+    public required int NominalImpellerRotationSpeed { get; init; }
+
+    /// <summary>
     ///     Скорость вращения крыльчатки, [об/мин]
     /// </summary>
     public required int ImpellerRotationSpeed { get; init; }
@@ -41,7 +47,7 @@ public record FanData
     /*/// <summary>
     /// Материал корпуса. Допустимые значения: "ZN" - оцинкованная сталь, "NR" - нержавеющая сталь или "KR" - кислотостойкая нержавеющая сталь.
     /// </summary>
-    public required string CaseMaterial { get; init; }*/
+    public string? CaseExecutionMaterial { get; init; }*/
 
     /// <summary>
     ///     Минимальный объем воздуха, [м3/ч]

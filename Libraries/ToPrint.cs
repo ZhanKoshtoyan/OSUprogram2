@@ -53,7 +53,7 @@ public static class ToPrint
                 + " кВт;"
                 + $"\nУровень звуковой мощности по октавам: {fan.OctaveNoise63}; {fan.OctaveNoise125}; {fan.OctaveNoise250}; {fan.OctaveNoise500}; {fan.OctaveNoise1000}; {fan.OctaveNoise2000}; {fan.OctaveNoise4000}; {fan.OctaveNoise8000} [дБ];"
                 + $"\nСуммарный уровень звуковой мощности с корректировкой фильтра А частот: 63; 125; 250; 500; 1к; 2к; 4к; 8к [Гц]: {fan.SumNoiseA}"
-                + "(А)"
+                + "дБ(А)"
             );
         }
     }

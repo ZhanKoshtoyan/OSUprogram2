@@ -16,6 +16,7 @@ var stringCaseMaterial = "";
 Console.WriteLine("Введите объемный расход воздуха, [м3/ч]: ");
 
 var inputVolumeFlow = Console.ReadLine();
+
 // var inputVolumeFlow = "4000";
 var result = double.TryParse(
     inputVolumeFlow?.Replace(".", ","),
@@ -23,15 +24,14 @@ var result = double.TryParse(
 );
 if (!result)
 {
-    throw new ArgumentException(
-        "Значение 'Объем воздуха' не является числом."
-    );
+    throw new ArgumentException("Значение 'Объем воздуха' не является числом.");
 }
 
 //-----------------------------------------------------------------------------------------------------------
 Console.WriteLine("Введите полное давление воздуха, [Па]: ");
 
 var inputTotalPressure = Console.ReadLine();
+
 // var inputTotalPressure = "350";
 result = double.TryParse(
     inputTotalPressure?.Replace(".", ","),
@@ -50,6 +50,7 @@ Console.WriteLine(
 );
 
 var inputTotalPressureDeviation = Console.ReadLine();
+
 // var inputTotalPressureDeviation = "30";
 result = double.TryParse(
     inputTotalPressureDeviation?.Replace(".", ","),
@@ -66,6 +67,7 @@ if (!result)
 Console.WriteLine("Введите температуру ежедневной эксплуатации, [°C]: ");
 
 var inputTemperature = Console.ReadLine();
+
 // var inputTemperature = "20";
 result = double.TryParse(
     inputTemperature?.Replace(".", ","),
@@ -79,7 +81,9 @@ if (!result)
 }
 
 //==========================================================================================================
-Console.WriteLine("Хотите ли Вы ввести дополнительные параметры? ['y' == 'yes']");
+Console.WriteLine(
+    "Хотите ли Вы ввести дополнительные параметры? ['y' == 'yes']"
+);
 var inputAddParameters = Console.ReadLine();
 if (inputAddParameters == "y")
 {
@@ -90,7 +94,7 @@ if (inputAddParameters == "y")
 
     var inputRelativeHumidity = Console.ReadLine();
     result = double.TryParse(
-        inputRelativeHumidity!.Replace(".", ","),
+        inputRelativeHumidity?.Replace(".", ","),
         out doubleRelativeHumidity
     );
     if (!result && !string.IsNullOrEmpty(inputRelativeHumidity))
@@ -102,9 +106,7 @@ if (inputAddParameters == "y")
 
     //==========================================================================================================
 
-    Console.WriteLine(
-        "Введите высоту над уровнем моря, [м]: "
-    );
+    Console.WriteLine("Введите высоту над уровнем моря, [м]: ");
 
     var inputAltitude = Console.ReadLine();
     result = double.TryParse(
@@ -120,7 +122,7 @@ if (inputAddParameters == "y")
 
     //==========================================================================================================
     Console.WriteLine(
-        "Введите условный типоразмер ОВД ('40', '50', '56', '63', '71', '80', '90', '100', '112', '125'): "
+        $"Введите условный типоразмер ОВД ({string.Join("; ", Sizes.Values)}): "
     );
 
     var inputSize = Console.ReadLine();
@@ -134,7 +136,7 @@ if (inputAddParameters == "y")
 
     //==========================================================================================================
     Console.WriteLine(
-        "Введите длину корпуса ОВД ('1' - полногабаритный корпус; '2' - короткий корпус): "
+        $"Введите длину корпуса ОВД ({string.Join(", ", FanBodyLengths.Names)}): "
     );
 
     var inputCaseLength = Console.ReadLine();
@@ -148,7 +150,7 @@ if (inputAddParameters == "y")
 
     //==========================================================================================================
     Console.WriteLine(
-        "Введите температуру перемещаемой среды ОВД ('300' или '400' [°C]): "
+        $"Введите температуру перемещаемой среды ОВД ({string.Join(", ", FanOperatingTemperatures.Names)} [°C]): "
     );
 
     var inputTemperatureFan = Console.ReadLine();
@@ -162,17 +164,20 @@ if (inputAddParameters == "y")
 
     //==========================================================================================================
     Console.WriteLine(
-        "Введите направление вращения рабочего колеса ОВД ('RRO' - поток на мотор, 'LRO' - поток на колесо или 'REV' - реверс): "
+        $"Введите направление вращения рабочего колеса ОВД ({string.Join(", ", ImpellerRotationDirections.Names)}): "
     );
     stringImpellerRotationDirection = Console.ReadLine();
 
     //==========================================================================================================
     Console.WriteLine(
-        "Введите номинальную мощность двигателя ОВД, [кВт] ('0,55'; '0,75'; '1,1'; '1,5'; '2,2'; '3,0'; '4,0'; '5,5'; '7,5'; '11,0'; '15,0'; '18,5'; '22,0'; '30,0'; '37,0'; '45,0'): "
+        $"Введите номинальную мощность двигателя ОВД, [кВт] ({string.Join("; ", Powers.Names)}): "
     );
 
     var inputNominalPower = Console.ReadLine();
-    result = double.TryParse(inputNominalPower!.Replace(".", ","), out doubleNominalPower);
+    result = double.TryParse(
+        inputNominalPower!.Replace(".", ","),
+        out doubleNominalPower
+    );
     if (!result && !string.IsNullOrEmpty(inputNominalPower))
     {
         throw new ArgumentException(
@@ -182,11 +187,14 @@ if (inputAddParameters == "y")
 
     //==========================================================================================================
     Console.WriteLine(
-        "Введите условное число оборотов двигателя ОВД, [об/мин] ('3000'; '1500'; '1000'): "
+        $"Введите условное число оборотов двигателя ОВД, [об/мин] ({string.Join(", ", ImpellerRotationSpeeds.Names)}): "
     );
 
     var inputImpellerRotationSpeed = Console.ReadLine();
-    result = int.TryParse(inputImpellerRotationSpeed, out intImpellerRotationSpeed);
+    result = int.TryParse(
+        inputImpellerRotationSpeed,
+        out intImpellerRotationSpeed
+    );
     if (!result && !string.IsNullOrEmpty(inputImpellerRotationSpeed))
     {
         throw new ArgumentException(
@@ -196,7 +204,7 @@ if (inputAddParameters == "y")
 
     //==========================================================================================================
     Console.WriteLine(
-        "Введите материал корпуса ОВД ('ZN' - оцинкованная сталь, 'NR' - нержавеющая сталь или 'KR' - кислотостойкая нержавеющая сталь): "
+        $"Введите материал корпуса ОВД ({string.Join(", ", CaseExecutionMaterials.Names)}): "
     );
 
     stringCaseMaterial = Console.ReadLine();
@@ -225,12 +233,13 @@ var userInput = new UserInput
     RelativeHumidity = doubleRelativeHumidity,
     Altitude = doubleAltitude,
     Size = intSize,
-    CaseLength = intCaseLength,
-    TemperatureFan = intTemperatureFan,
+    FanBodyLength = intCaseLength,
+    FanOperatingTemperature = intTemperatureFan,
     ImpellerRotationDirection = stringImpellerRotationDirection,
     NominalPower = doubleNominalPower,
     ImpellerRotationSpeed = intImpellerRotationSpeed,
-    CaseMaterial = stringCaseMaterial
+    CaseExecutionMaterial = stringCaseMaterial,
+    PathJsonFile = pathJsonFile
 };
 
 var validator = new UserInputValidator();
@@ -245,7 +254,7 @@ if (!string.IsNullOrEmpty(allMessages))
     throw new ArgumentException(allMessages);
 }*/
 
-var fansList = JsonLoader.Download(pathJsonFile);
+var fansList = JsonLoader.Download(userInput.PathJsonFile);
 
 var sortFans = SortFans.Sort(fansList, userInput);
 ToPrint.Print(sortFans, userInput);

@@ -12,7 +12,10 @@ public abstract class SortFans
     /// <param name="userInputValidated"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentException"></exception>
-    public static List<Fan> Sort(List<FanData>? fansList, UserInput userInputValidated)
+    public static List<Fan> Sort(
+        List<FanData>? fansList,
+        UserInput userInputValidated
+    )
     {
         var sortInputFansList = fansList!
             .Where(
@@ -25,49 +28,64 @@ public abstract class SortFans
         if (sortInputFansList.Count == 0)
         {
             throw new ArgumentException(
-                $"Объем воздуха {userInputValidated.VolumeFlow} [м3/ч] выходит за границы производительности вентиляторов. Вентиляторы не могут быть подобраны."
+                $"Объем воздуха {userInputValidated.VolumeFlow} [м3/ч] выходит за границы производительности вентиляторов. Количество вентиляторов в списке = 0"
             );
         }
 
         //------------------------------------------------------------------------------------------------------------
         if (userInputValidated.Size != 0)
         {
-            sortInputFansList = sortInputFansList.Where(f => userInputValidated.Size.ToString("D3") == f.Size)
+            sortInputFansList = sortInputFansList
+                .Where(f => userInputValidated.Size.ToString("D3") == f.Size)
                 .ToList();
         }
 
         if (userInputValidated.ImpellerRotationDirection != "")
         {
             sortInputFansList = sortInputFansList
-                .Where(f => userInputValidated.ImpellerRotationDirection == f.ImpellerRotationDirection).ToList();
+                .Where(
+                    f =>
+                        userInputValidated.ImpellerRotationDirection
+                        == f.ImpellerRotationDirection
+                )
+                .ToList();
         }
 
         if (userInputValidated.NominalPower != 0)
         {
             sortInputFansList = sortInputFansList
-                .Where(f => Math.Abs(userInputValidated.NominalPower - f.NominalPower) < 0.05).ToList();
+                .Where(
+                    f =>
+                        Math.Abs(
+                            (double)(
+                                userInputValidated.NominalPower
+                                - f.NominalPower
+                            )
+                        ) < 0.05
+                )
+                .ToList();
         }
 
         if (userInputValidated.ImpellerRotationSpeed != 0)
         {
             sortInputFansList = sortInputFansList
-                .Where(f => Math.Abs(userInputValidated.ImpellerRotationSpeed - Math.Round(
-                            (double) f.ImpellerRotationSpeed
-                            / 500
-                        ) * 500
-                    ) < 0.05
-                ).ToList();
+                .Where(
+                    f =>
+                        Math.Abs(
+                            userInputValidated.ImpellerRotationSpeed
+                                - Math.Round(
+                                    f.ImpellerRotationSpeed / 500.0
+                                ) * 500
+                        ) < 0.05
+                )
+                .ToList();
         }
 
         //------------------------------------------------------------------------------------------------------------
 
         var sortDeviationFansList = sortInputFansList
             .Select(
-                elementFanData =>
-                    new Fan(
-                        elementFanData,
-                        userInputValidated
-                    )
+                elementFanData => new Fan(elementFanData, userInputValidated)
             )
             .Where(
                 fan =>
@@ -83,7 +101,9 @@ public abstract class SortFans
             );
         }
 
-        var orderedNumbers = sortDeviationFansList.OrderBy(f => Math.Abs(f.TotalPressureDeviation));
+        var orderedNumbers = sortDeviationFansList.OrderBy(
+            f => Math.Abs(f.TotalPressureDeviation)
+        );
 
         return new List<Fan>(orderedNumbers);
     }

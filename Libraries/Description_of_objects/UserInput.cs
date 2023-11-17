@@ -25,24 +25,27 @@ public record UserInput
     /// <summary>
     ///     Относительная влажность температуры ежедневной эксплуатации, которую ввел пользователь (по умолчанию = 0); [%]
     /// </summary>
-    public required double RelativeHumidity { get; init; }
+    public double? RelativeHumidity { get; init; } = 0;
 
     /// <summary>
     ///     Высота над уровнем моря, которую ввел пользователь (по умолчанию = 20); [м]
     /// </summary>
-    public required double Altitude { get; set; }
+    public double Altitude { get; set; } = 20;
 
-    public required int Size { get; init; }
+    public int Size { get; init; }
 
-    public required int CaseLength { get; init; }
+    public int FanBodyLength { get; init; }
 
-    public required int TemperatureFan { get; init; }
+    public int FanOperatingTemperature { get; init; }
 
-    public required string? ImpellerRotationDirection { get; init; }
+    public string? ImpellerRotationDirection { get; init; } = "RRO";
 
-    public required double NominalPower { get; init; }
+    public double NominalPower { get; init; }
 
-    public required int ImpellerRotationSpeed { get; init; }
+    public int ImpellerRotationSpeed { get; init; }
 
-    public required string? CaseMaterial { get; init; }
+    public string? CaseExecutionMaterial { get; init; }
+
+    public string? PathJsonFile { get; init; } =
+        "C:\\My ProjectCSharp\\OSUprogram2\\OSUprogram2\\OSUConsole\\bin\\Debug\\net7.0\\Fans.json";
 }
