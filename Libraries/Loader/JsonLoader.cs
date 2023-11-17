@@ -1,6 +1,7 @@
-﻿using System.Text.Json;
+﻿using Libraries.Description_of_objects;
+using System.Text.Json;
 
-namespace Libraries;
+namespace Libraries.Loader;
 
 public static class JsonLoader
 {

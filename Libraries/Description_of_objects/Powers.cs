@@ -1,4 +1,4 @@
-﻿namespace Libraries;
+﻿namespace Libraries.Description_of_objects;
 
 public static class Powers
 {

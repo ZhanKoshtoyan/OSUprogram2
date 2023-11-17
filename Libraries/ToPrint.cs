@@ -1,8 +1,10 @@
-﻿namespace Libraries;
+﻿using Libraries.Description_of_objects;
+
+namespace Libraries;
 
 public static class ToPrint
 {
-    public static void Print(List<Fan> sortFans, UserInput userInput)
+    public static void Print(List<Fan> sortFans, UserInputRequired userInput)
     {
         string? endingOfTheWord1;
         string? endingOfTheWord2;

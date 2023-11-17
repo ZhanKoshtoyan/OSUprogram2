@@ -1,8 +1,9 @@
 ﻿using FluentValidation;
+using Libraries.Description_of_objects;
 
-namespace Libraries;
+namespace Libraries.Validate_and_sort;
 
-public class UserInputValidator : AbstractValidator<UserInput>
+public class UserInputValidator : AbstractValidator<UserInputRequired>
 {
     public UserInputValidator()
     {

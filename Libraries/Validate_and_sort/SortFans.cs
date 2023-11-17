@@ -1,4 +1,6 @@
-﻿namespace Libraries;
+﻿using Libraries.Description_of_objects;
+
+namespace Libraries.Validate_and_sort;
 
 public abstract class SortFans
 {
@@ -14,7 +16,7 @@ public abstract class SortFans
     /// <exception cref="ArgumentException"></exception>
     public static List<Fan> Sort(
         List<FanData>? fansList,
-        UserInput userInputValidated
+        UserInputRequired userInputValidated
     )
     {
         var sortInputFansList = fansList!

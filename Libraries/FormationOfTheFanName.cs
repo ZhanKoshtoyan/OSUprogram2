@@ -1,8 +1,10 @@
-﻿namespace Libraries;
+﻿using Libraries.Description_of_objects;
+
+namespace Libraries;
 
 public static class FormationOfTheFanName
 {
-    public static string DoIt(FanData data, UserInput userInput)
+    public static string DoIt(FanData data, UserInputOptional userInput)
     {
 
         var selectedTemperatureFan =

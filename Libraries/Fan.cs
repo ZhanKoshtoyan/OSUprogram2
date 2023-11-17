@@ -1,4 +1,5 @@
-﻿using SharpProp;
+﻿using Libraries.Description_of_objects;
+using SharpProp;
 using UnitsNet.NumberExtensions.NumberToLength;
 using UnitsNet.NumberExtensions.NumberToRelativeHumidity;
 using UnitsNet.NumberExtensions.NumberToTemperature;
@@ -67,7 +68,7 @@ public class Fan
     /// </summary>
     /// <param name="data"></param>
     /// <param name="userInput"></param>
-    public Fan(FanData data, UserInput userInput)
+    public Fan(FanData data, UserInputRequired userInput)
     {
         Data = data;
         _inputVolumeFlow = userInput.VolumeFlow;

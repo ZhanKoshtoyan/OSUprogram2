@@ -1,5 +1,8 @@
 ﻿using FluentValidation;
 using Libraries;
+using Libraries.Description_of_objects;
+using Libraries.Loader;
+using Libraries.Validate_and_sort;
 
 double doubleRelativeHumidity = 0;
 double doubleAltitude = 0;
@@ -224,7 +227,7 @@ if (inputAddParameters == "y")
 
 //==========================================================================================================
 
-var userInput = new UserInput
+var userInput = new UserInputRequired
 {
     VolumeFlow = doubleVolumeFlow,
     TotalPressure = doubleTotalPressure,

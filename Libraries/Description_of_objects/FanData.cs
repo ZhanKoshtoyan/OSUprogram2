@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace Libraries;
+﻿namespace Libraries.Description_of_objects;
 
 /// <summary>
 ///     Информация о вентиляторе
