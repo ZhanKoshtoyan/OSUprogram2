@@ -257,7 +257,7 @@ if (!string.IsNullOrEmpty(allMessages))
     throw new ArgumentException(allMessages);
 }*/
 
-var fansList = JsonLoader.Download(userInput.PathJsonFile);
+var fansList = await JsonLoader.DownloadAsync(userInput.PathJsonFile);
 
 var sortFans = SortFans.Sort(fansList, userInput);
 ToPrint.Print(sortFans, userInput);

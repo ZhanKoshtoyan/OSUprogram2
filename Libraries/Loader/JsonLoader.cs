@@ -19,14 +19,14 @@ public static class JsonLoader
         file.Close();
     }*/
 
-    public static List<FanData>? Download(string? pathJsonFile)
+    public static async Task<List<FanData>?> DownloadAsync(string? pathJsonFile)
     {
         List<FanData>? restoredFanData = null;
 
         if (File.Exists(pathJsonFile))
         {
-            var json = File.ReadAllText(pathJsonFile);
-            restoredFanData = JsonSerializer.Deserialize<List<FanData>?>(json);
+            await using Stream json = File.OpenRead(pathJsonFile);
+            restoredFanData = await JsonSerializer.DeserializeAsync<List<FanData>?>(json);
             Console.WriteLine(restoredFanData);
         }
         else
