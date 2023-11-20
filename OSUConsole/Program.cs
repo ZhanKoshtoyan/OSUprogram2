@@ -245,19 +245,6 @@ var userInput = new UserInputRequired
     PathJsonFile = pathJsonFile
 };
 
-var validator = new UserInputValidator();
+FanSelector.DoIt(userInput);
 
-validator.ValidateAndThrow(userInput);
 
-/*var resultValidation = validator.Validate(userInput);
-var allMessages = resultValidation.ToString();
-
-if (!string.IsNullOrEmpty(allMessages))
-{
-    throw new ArgumentException(allMessages);
-}*/
-
-var fansList = await JsonLoader.DownloadAsync(userInput.PathJsonFile);
-
-var sortFans = SortFans.Sort(fansList, userInput);
-ToPrint.Print(sortFans, userInput);
