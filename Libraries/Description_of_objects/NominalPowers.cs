@@ -1,7 +1,10 @@
 ﻿namespace Libraries.Description_of_objects;
 
-public static class Powers
+public static class NominalPowers
 {
+    /// <summary>
+    /// Номинальная мощность: короткое название
+    /// </summary>
     public static readonly double[] Values =
     {
         0.55,
@@ -21,6 +24,10 @@ public static class Powers
         37.0,
         45.0
     };
+
+    /// <summary>
+    /// Номинальная мощность: полное название
+    /// </summary>
     public static readonly double[] Names =
     {
         0.55,

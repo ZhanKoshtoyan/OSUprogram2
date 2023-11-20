@@ -82,7 +82,7 @@ public class Fan
 
         _air = new HumidAir().WithState(
             InputHumidAir.Altitude(userInput.Altitude.Meters()),
-            InputHumidAir.Temperature(userInput.Temperature.DegreesCelsius()),
+            InputHumidAir.Temperature(userInput.FanOperatingMinTemperature.DegreesCelsius()),
             InputHumidAir.RelativeHumidity(
                 userInput.RelativeHumidity?.Percent() ?? 0.Percent()
             )

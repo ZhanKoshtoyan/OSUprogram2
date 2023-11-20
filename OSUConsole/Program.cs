@@ -153,7 +153,7 @@ if (inputAddParameters == "y")
 
     //==========================================================================================================
     Console.WriteLine(
-        $"Введите температуру перемещаемой среды ОВД ({string.Join(", ", FanOperatingTemperatures.Names)} [°C]): "
+        $"Введите температуру перемещаемой среды ОВД ({string.Join(", ", FanOperatingMaxTemperatures.Names)} [°C]): "
     );
 
     var inputTemperatureFan = Console.ReadLine();
@@ -173,7 +173,7 @@ if (inputAddParameters == "y")
 
     //==========================================================================================================
     Console.WriteLine(
-        $"Введите номинальную мощность двигателя ОВД, [кВт] ({string.Join("; ", Powers.Names)}): "
+        $"Введите номинальную мощность двигателя ОВД, [кВт] ({string.Join("; ", NominalPowers.Names)}): "
     );
 
     var inputNominalPower = Console.ReadLine();
@@ -232,12 +232,12 @@ var userInput = new UserInputRequired
     VolumeFlow = doubleVolumeFlow,
     TotalPressure = doubleTotalPressure,
     TotalPressureDeviation = doubleTotalPressureDeviation,
-    Temperature = doubleTemperature,
+    FanOperatingMinTemperature = doubleTemperature,
     RelativeHumidity = doubleRelativeHumidity,
     Altitude = doubleAltitude,
     Size = intSize,
     FanBodyLength = intCaseLength,
-    FanOperatingTemperature = intTemperatureFan,
+    FanOperatingMaxTemperature = intTemperatureFan,
     ImpellerRotationDirection = stringImpellerRotationDirection,
     NominalPower = doubleNominalPower,
     ImpellerRotationSpeed = intImpellerRotationSpeed,

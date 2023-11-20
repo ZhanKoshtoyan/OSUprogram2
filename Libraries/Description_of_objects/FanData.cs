@@ -19,7 +19,7 @@ public record FanData
     /*/// <summary>
     /// Температура перемещаемой среды, [°C]. Допустимые значения: 300 или 400°C.
     /// </summary>
-    public string? FanOperatingTemperature { get; init; }*/
+    public string? FanOperatingMaxTemperature { get; init; }*/
 
     /// <summary>
     ///     Направление вращения рабочего колеса. Допустимые значения: "RRO" - поток на мотор, "LRO" - поток на колесо или

@@ -2,13 +2,14 @@
 
 public static class CaseExecutionMaterials
 {
-    public static readonly string[] Values =
-    {
-        "ZN",
-        "NR",
-        "KR"
-    };
+    /// <summary>
+    /// Материал исполнения корпуса: короткое название
+    /// </summary>
+    public static readonly string[] Values = { "ZN", "NR", "KR" };
 
+    /// <summary>
+    /// Материал исполнения корпуса: полное название
+    /// </summary>
     public static readonly string[] Names =
     {
         "ZN - оцинкованная сталь",

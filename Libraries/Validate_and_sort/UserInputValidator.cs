@@ -37,11 +37,11 @@ public class UserInputValidator : AbstractValidator<UserInputRequired>
             .WithMessage(
                 $"Длина корпуса ОВД должна быть : {string.Join(", ", FanBodyLengths.Names)}."
             );
-        RuleFor(input => input.FanOperatingTemperature)
-            .Must(input => FanOperatingTemperatures.Values.Contains(input))
-            .When(input => input.FanOperatingTemperature != 0)
+        RuleFor(input => input.FanOperatingMaxTemperature)
+            .Must(input => FanOperatingMaxTemperatures.Values.Contains(input))
+            .When(input => input.FanOperatingMaxTemperature != 0)
             .WithMessage(
-                $"Температура перемещаемой среды ОВД должна быть: {string.Join(", ", FanOperatingTemperatures.Names)} [°C]."
+                $"Температура перемещаемой среды ОВД должна быть: {string.Join(", ", FanOperatingMaxTemperatures.Names)} [°C]."
             );
         RuleFor(input => input.ImpellerRotationDirection)
             .Must(input => ImpellerRotationDirections.Values.Contains(input))
@@ -52,10 +52,10 @@ public class UserInputValidator : AbstractValidator<UserInputRequired>
                 $"Направление вращения рабочего колеса ОВД должна быть: {string.Join(", ", ImpellerRotationDirections.Names)}."
             );
         RuleFor(input => input.NominalPower)
-            .Must(input => Powers.Values.Contains(input))
+            .Must(input => NominalPowers.Values.Contains(input))
             .When(input => input.NominalPower != 0)
             .WithMessage(
-                $"Номинальная мощность двигателя ОВД должна быть: {string.Join("; ", Powers.Names)}  [кВт]"
+                $"Номинальная мощность двигателя ОВД должна быть: {string.Join("; ", NominalPowers.Names)}  [кВт]"
             );
         RuleFor(input => input.ImpellerRotationSpeed)
             .Must(input => ImpellerRotationSpeeds.Values.Contains(input))

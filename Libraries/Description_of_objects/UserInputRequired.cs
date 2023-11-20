@@ -1,6 +1,6 @@
 ﻿namespace Libraries.Description_of_objects;
 
-public class UserInputRequired: UserInputOptional
+public class UserInputRequired : UserInputOptional
 {
     /// <summary>
     ///     Объемный расход воздуха, который ввел пользователь;  [м3/ч]
@@ -13,12 +13,12 @@ public class UserInputRequired: UserInputOptional
     public required double TotalPressure { get; init; }
 
     /// <summary>
-    ///     Допустимая погрешность подбора по полному давлению воздуха, которую ввел пользователь; [%]
+    ///     Допустимая погрешность подбора по полному давлению воздуха, которое ввел пользователь; [%]
     /// </summary>
     public required double TotalPressureDeviation { get; init; }
 
     /// <summary>
-    ///     Температура ежедневной эксплуатации, которую ввел пользователь; [°C]
+    ///     Минимальная температура эксплуатации, которое ввел пользователь; [°C]
     /// </summary>
-    public required double Temperature { get; init; }
+    public required double FanOperatingMinTemperature { get; init; }
 }

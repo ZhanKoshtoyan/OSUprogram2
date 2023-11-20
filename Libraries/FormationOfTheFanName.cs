@@ -8,9 +8,9 @@ public static class FormationOfTheFanName
     {
 
         var selectedTemperatureFan =
-            userInput.FanOperatingTemperature == 0
+            userInput.FanOperatingMaxTemperature == 0
                 ? "ххх"
-                : userInput.FanOperatingTemperature.ToString();
+                : userInput.FanOperatingMaxTemperature.ToString();
         var selectedSize = userInput.Size == 0
             ? "ххх"
             : userInput.Size.ToString()!.PadLeft(3, '0');
