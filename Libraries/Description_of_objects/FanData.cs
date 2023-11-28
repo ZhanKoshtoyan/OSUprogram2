@@ -3,7 +3,6 @@
 /// <summary>
 ///     Информация о вентиляторе
 /// </summary>
-
 public record FanData
 {
     /// <summary>

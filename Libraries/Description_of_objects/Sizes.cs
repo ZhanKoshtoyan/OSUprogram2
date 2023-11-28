@@ -3,7 +3,7 @@
 public static class Sizes
 {
     /// <summary>
-    /// Типоразмер вентилятора: короткое название
+    ///     Типоразмер вентилятора: короткое название
     /// </summary>
     public static readonly int[] Values =
     {
@@ -20,7 +20,7 @@ public static class Sizes
     };
 
     /// <summary>
-    /// Типоразмер вентилятора: полное название
+    ///     Типоразмер вентилятора: полное название
     /// </summary>
     public static readonly int[] Names =
     {

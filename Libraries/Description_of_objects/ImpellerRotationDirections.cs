@@ -3,12 +3,17 @@
 public static class ImpellerRotationDirections
 {
     /// <summary>
-    /// Направление движения крыльчатки: короткое название
+    ///     Направление движения крыльчатки: короткое название
     /// </summary>
-    public static readonly string[] Values = { "RRO", "LRO", "REV" };
+    public static readonly string[] Values =
+    {
+        "RRO",
+        "LRO",
+        "REV"
+    };
 
     /// <summary>
-    /// Направление движения крыльчатки: полное название
+    ///     Направление движения крыльчатки: полное название
     /// </summary>
     public static readonly string[] Names =
     {

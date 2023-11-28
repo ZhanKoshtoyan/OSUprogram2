@@ -3,12 +3,17 @@
 public static class CaseExecutionMaterials
 {
     /// <summary>
-    /// Материал исполнения корпуса: короткое название
+    ///     Материал исполнения корпуса: короткое название
     /// </summary>
-    public static readonly string[] Values = { "ZN", "NR", "KR" };
+    public static readonly string[] Values =
+    {
+        "ZN",
+        "NR",
+        "KR"
+    };
 
     /// <summary>
-    /// Материал исполнения корпуса: полное название
+    ///     Материал исполнения корпуса: полное название
     /// </summary>
     public static readonly string[] Names =
     {

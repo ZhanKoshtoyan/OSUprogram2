@@ -3,12 +3,16 @@
 public static class FanBodyLengths
 {
     /// <summary>
-    /// Длина корпуса: короткое название
+    ///     Длина корпуса: короткое название
     /// </summary>
-    public static readonly int[] Values = { 1, 2 };
+    public static readonly int[] Values =
+    {
+        1,
+        2
+    };
 
     /// <summary>
-    /// Длина корпуса: полное название
+    ///     Длина корпуса: полное название
     /// </summary>
     public static readonly string[] Names =
     {

@@ -73,18 +73,14 @@ public class Fan
         Data = data;
         _inputVolumeFlow = userInput.VolumeFlow;
         _inputTotalPressure = userInput.TotalPressure;
-        if (userInput.Altitude == 0)
-        {
-            userInput.Altitude = 20;
-        }
 
         Name = FormationOfTheFanName.DoIt(data, userInput);
 
         _air = new HumidAir().WithState(
-            InputHumidAir.Altitude(userInput.Altitude.Meters()),
+            InputHumidAir.Altitude(userInput.Altitude.GetValueOrDefault().Meters()),
             InputHumidAir.Temperature(userInput.FanOperatingMinTemperature.DegreesCelsius()),
             InputHumidAir.RelativeHumidity(
-                userInput.RelativeHumidity?.Percent() ?? 0.Percent()
+                userInput.RelativeHumidity.GetValueOrDefault().Percent()
             )
         );
     }
@@ -123,9 +119,9 @@ public class Fan
     public double StaticPressure =>
         Math.Round(
             TotalPressure
-                - 0.5
-                    * AirInStandardConditions.Density.KilogramsPerCubicMeter
-                    * Math.Pow(AirVelocity, 2),
+            - 0.5
+            * AirInStandardConditions.Density.KilogramsPerCubicMeter
+            * Math.Pow(AirVelocity, 2),
             0
         );
 

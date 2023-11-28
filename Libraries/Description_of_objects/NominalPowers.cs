@@ -3,7 +3,7 @@
 public static class NominalPowers
 {
     /// <summary>
-    /// Номинальная мощность: короткое название
+    ///     Номинальная мощность: короткое название
     /// </summary>
     public static readonly double[] Values =
     {
@@ -26,7 +26,7 @@ public static class NominalPowers
     };
 
     /// <summary>
-    /// Номинальная мощность: полное название
+    ///     Номинальная мощность: полное название
     /// </summary>
     public static readonly double[] Names =
     {

@@ -38,7 +38,12 @@ public abstract class SortFans
         if (userInputValidated.Size != 0)
         {
             sortInputFansList = sortInputFansList
-                .Where(f => userInputValidated.Size.ToString("D3") == f.Size)
+                .Where(
+                    f =>
+                        userInputValidated.Size
+                            .GetValueOrDefault()
+                            .ToString("D3") == f.Size
+                )
                 .ToList();
         }
 
@@ -59,14 +64,14 @@ public abstract class SortFans
                 .Where(
                     f =>
                         Math.Abs(
-                            (double)(
-                                userInputValidated.NominalPower
-                                - f.NominalPower
+                            (
+                                userInputValidated.NominalPower.GetValueOrDefault() - f.NominalPower
                             )
                         ) < 0.05
                 )
                 .ToList();
         }
+
 
         if (userInputValidated.ImpellerRotationSpeed != 0)
         {
@@ -74,10 +79,9 @@ public abstract class SortFans
                 .Where(
                     f =>
                         Math.Abs(
-                            userInputValidated.ImpellerRotationSpeed
-                                - Math.Round(
-                                    f.ImpellerRotationSpeed / 500.0
-                                ) * 500
+                            userInputValidated.ImpellerRotationSpeed.GetValueOrDefault()
+                                - Math.Round(f.ImpellerRotationSpeed / 500.0)
+                                    * 500
                         ) < 0.05
                 )
                 .ToList();

@@ -1,20 +1,16 @@
-﻿using FluentValidation;
-using Libraries;
+﻿using Libraries;
 using Libraries.Description_of_objects;
-using Libraries.Loader;
-using Libraries.Validate_and_sort;
 
-double doubleRelativeHumidity = 0;
-double doubleAltitude = 0;
-var pathJsonFile =
-    "C:\\My ProjectCSharp\\OSUprogram2\\OSUprogram2\\OSUConsole\\bin\\Debug\\net7.0\\Fans.json";
-var intSize = 0;
-var intCaseLength = 0;
-var intTemperatureFan = 0;
-var stringImpellerRotationDirection = "";
-double doubleNominalPower = 0;
-var intImpellerRotationSpeed = 0;
-var stringCaseMaterial = "";
+double doubleRelativeHumidity = default;
+double doubleAltitude = default;
+int intSize = default;
+int intCaseLength = default;
+int intTemperatureFan = default;
+string? stringImpellerRotationDirection = default;
+double doubleNominalPower = default;
+int intImpellerRotationSpeed = default;
+string? stringCaseMaterial = default;
+
 
 Console.WriteLine("Введите объемный расход воздуха, [м3/ч]: ");
 
@@ -212,17 +208,6 @@ if (inputAddParameters == "y")
 
     stringCaseMaterial = Console.ReadLine();
 
-    //==========================================================================================================
-    //Ввод адреса к файлу Json
-    Console.WriteLine(
-        "Укажите путь файла Json (по умолчанию: 'C:\\My ProjectCSharp\\OSUprogram2\\OSUprogram2\\OSUConsole\\bin\\Debug\\net7.0\\Fans.json'):"
-    );
-    var input = Console.ReadLine();
-
-    if (input != "")
-    {
-        pathJsonFile = input;
-    }
 }
 
 //==========================================================================================================
@@ -242,9 +227,6 @@ var userInput = new UserInputRequired
     NominalPower = doubleNominalPower,
     ImpellerRotationSpeed = intImpellerRotationSpeed,
     CaseExecutionMaterial = stringCaseMaterial,
-    PathJsonFile = pathJsonFile
 };
 
 FanSelector.DoIt(userInput);
-
-
