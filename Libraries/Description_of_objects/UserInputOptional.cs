@@ -2,6 +2,8 @@
 
 public class UserInputOptional
 {
+    public static readonly string PathJsonFile = Path.Combine(Directory.GetCurrentDirectory(), "Fans.json");
+
     /// <summary>
     ///     Относительная влажность температуры ежедневной эксплуатации (по умолчанию = 0), которое ввел пользователь; [%]
     /// </summary>
@@ -46,8 +48,6 @@ public class UserInputOptional
     ///     Материал исполнения корпуса, которое ввел пользователь
     /// </summary>
     public string? CaseExecutionMaterial { get; init; }
-
-    public static readonly string PathJsonFile = Path.Combine(Directory.GetCurrentDirectory(), "Fans.json");
 
     //TODO Не давать пользователю выбор расположения файла json.
     //TODO Создать пользовательские типы, которые разделят по смыслу вводимые данные. Эти типы будут сохранены как PolynomialType.

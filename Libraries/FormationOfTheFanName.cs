@@ -8,36 +8,40 @@ public static class FormationOfTheFanName
     public static string DoIt(FanData data, UserInputOptional userInput)
     {
         var selectedTemperatureFan = userInput
-            .FanOperatingMaxTemperature
-            .HasValue
-            ? FanOperatingMaxTemperatures.Values.GetValue(1)
+                .FanOperatingMaxTemperature
+            == 0
+            ? FanOperatingMaxTemperatures.Values.GetValue(0)
             : userInput.FanOperatingMaxTemperature.ToString();
-        var selectedSize = userInput.Size.HasValue
+        var selectedSize = userInput.Size == 0
             ? data.Size.PadLeft(3, '0')
             : userInput.Size.ToString()!.PadLeft(3, '0');
-        var selectedCaseLength = userInput.FanBodyLength.HasValue
-            ? FanBodyLengths.Values.GetValue(1)
+        var selectedCaseLength = userInput.FanBodyLength == 0
+            ? FanBodyLengths.Values.GetValue(0)
             : userInput.FanBodyLength.ToString();
         var selectedImpellerRotationDirection =
-            userInput.ImpellerRotationDirection
-            ?? ImpellerRotationDirections.Values.GetValue(1);
-        var selectedNominalPower = userInput.NominalPower.HasValue
+            string.IsNullOrEmpty(userInput.ImpellerRotationDirection)
+                ? ImpellerRotationDirections.Values.GetValue(0)
+                : userInput.ImpellerRotationDirection;
+        var selectedNominalPower = userInput.NominalPower == 0
             ? (data.NominalPower * 100)
-                .ToString(CultureInfo.InvariantCulture)
-                .PadLeft(4, '0')
-            : (userInput.NominalPower.GetValueOrDefault() * 100)
-                .ToString(CultureInfo.InvariantCulture)
-                .PadLeft(4, '0');
+            .ToString(CultureInfo.InvariantCulture)
+            .PadLeft(4, '0')
+            : Math.Round(
+                userInput.NominalPower.GetValueOrDefault() * 100
+                , 1)
+            .ToString(CultureInfo.InvariantCulture)
+            .PadLeft(4, '0');
         var selectedCaseMaterial =
-            userInput.CaseExecutionMaterial
-            ?? CaseExecutionMaterials.Values.GetValue(1);
+            string.IsNullOrEmpty(userInput.CaseExecutionMaterial)
+                ? CaseExecutionMaterials.Values.GetValue(0)
+                : userInput.CaseExecutionMaterial;
         var roundedImpellerRotationSpeed = userInput
-            .ImpellerRotationSpeed
-            .HasValue
+                .ImpellerRotationSpeed
+            == 0
             ? data.NominalImpellerRotationSpeed.ToString().PadLeft(4, '0')
-            : userInput.ImpellerRotationSpeed
-                .GetValueOrDefault()
-                .ToString()
+            : Math.Round((double) userInput.ImpellerRotationSpeed
+                    .GetValueOrDefault(),0)
+                .ToString(CultureInfo.InvariantCulture)
                 .PadLeft(4, '0');
 
         return string.Format(

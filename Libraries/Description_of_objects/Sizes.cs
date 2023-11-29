@@ -8,6 +8,7 @@ public static class Sizes
     public static readonly int[] Values =
     {
         40,
+        45,
         50,
         56,
         63,

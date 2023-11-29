@@ -7,11 +7,11 @@ namespace Libraries;
 
 public static class FanSelector
 {
-    public static async void DoIt(UserInputRequired userInput)
+    public static void DoIt(UserInputRequired userInput)
     {
         var validator = new UserInputValidator();
 
-        await validator.ValidateAndThrowAsync(userInput);
+        validator.ValidateAndThrowAsync(userInput);
 
         /*var resultValidation = validator.Validate(userInput);
         var allMessages = resultValidation.ToString();
@@ -21,7 +21,7 @@ public static class FanSelector
             throw new ArgumentException(allMessages);
         }*/
 
-        var fansList = await JsonLoader.DownloadAsync(UserInputOptional.PathJsonFile);
+        var fansList = JsonLoader.Download(UserInputOptional.PathJsonFile);
         //TODO Добавить витвление. Пользователь указывает назначение вентилятора. В зависимости от этого тут осуществить выбор интерфейса, который возвратит корректное Name.
         var sortFans = SortFans.Sort(fansList, userInput);
         ToPrint.Print(sortFans, userInput);

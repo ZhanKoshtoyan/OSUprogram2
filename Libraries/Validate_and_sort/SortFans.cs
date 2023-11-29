@@ -47,7 +47,8 @@ public abstract class SortFans
                 .ToList();
         }
 
-        if (userInputValidated.ImpellerRotationDirection != "")
+        if (!string.IsNullOrEmpty(userInputValidated.ImpellerRotationDirection) || ReferenceEquals(userInputValidated
+                .ImpellerRotationDirection, ImpellerRotationDirections.Values.GetValue(2)))
         {
             sortInputFansList = sortInputFansList
                 .Where(
@@ -64,14 +65,11 @@ public abstract class SortFans
                 .Where(
                     f =>
                         Math.Abs(
-                            (
-                                userInputValidated.NominalPower.GetValueOrDefault() - f.NominalPower
-                            )
+                            userInputValidated.NominalPower.GetValueOrDefault() - f.NominalPower
                         ) < 0.05
                 )
                 .ToList();
         }
-
 
         if (userInputValidated.ImpellerRotationSpeed != 0)
         {
@@ -80,8 +78,8 @@ public abstract class SortFans
                     f =>
                         Math.Abs(
                             userInputValidated.ImpellerRotationSpeed.GetValueOrDefault()
-                                - Math.Round(f.ImpellerRotationSpeed / 500.0)
-                                    * 500
+                            - Math.Round(f.ImpellerRotationSpeed / 500.0)
+                            * 500
                         ) < 0.05
                 )
                 .ToList();

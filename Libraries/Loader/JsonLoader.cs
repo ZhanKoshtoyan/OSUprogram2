@@ -39,10 +39,8 @@ public static class JsonLoader
         file.Close();
     }
 
-    public static async Task<List<FanData>?> DownloadAsync(string pathJsonFile)
+    public static List<FanData>? Download(string pathJsonFile)
     {
-
-
         var options = new JsonSerializerOptions
         {
             AllowTrailingCommas = true,
@@ -54,17 +52,11 @@ public static class JsonLoader
         {
             try
             {
-                await using Stream streamJson = File.OpenRead(pathJsonFile);
-                restoredFanData = await JsonSerializer.DeserializeAsync<List<FanData>>(streamJson, options);
-                Console.WriteLine(restoredFanData);
-            }
-            catch (JsonException ex)
-            {
-                Console.WriteLine($"Ошибка при десериализации данных: {ex.Message}");
-            }
-            catch (IOException ex)
-            {
-                Console.WriteLine($"Ошибка ввода-вывода: {ex.Message}");
+                using var streamJson = File.OpenRead(pathJsonFile);
+                {
+                    restoredFanData = JsonSerializer.Deserialize<List<FanData>>(streamJson, options);
+                    Console.WriteLine(restoredFanData);
+                }
             }
             catch (Exception ex)
             {

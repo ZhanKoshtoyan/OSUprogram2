@@ -11,7 +11,6 @@ double doubleNominalPower = default;
 int intImpellerRotationSpeed = default;
 string? stringCaseMaterial = default;
 
-
 Console.WriteLine("Введите объемный расход воздуха, [м3/ч]: ");
 
 var inputVolumeFlow = Console.ReadLine();
@@ -207,7 +206,6 @@ if (inputAddParameters == "y")
     );
 
     stringCaseMaterial = Console.ReadLine();
-
 }
 
 //==========================================================================================================
@@ -226,7 +224,7 @@ var userInput = new UserInputRequired
     ImpellerRotationDirection = stringImpellerRotationDirection,
     NominalPower = doubleNominalPower,
     ImpellerRotationSpeed = intImpellerRotationSpeed,
-    CaseExecutionMaterial = stringCaseMaterial,
+    CaseExecutionMaterial = stringCaseMaterial
 };
 
 FanSelector.DoIt(userInput);
