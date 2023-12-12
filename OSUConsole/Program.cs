@@ -10,6 +10,7 @@ string? stringImpellerRotationDirection = default;
 double doubleNominalPower = default;
 int intImpellerRotationSpeed = default;
 string? stringCaseMaterial = default;
+string? stringFanVersion = default;
 
 Console.WriteLine("Введите объемный расход воздуха, [м3/ч]: ");
 
@@ -60,6 +61,12 @@ if (!result)
         "Значение 'Допустимая погрешность подбора' не является числом."
     );
 }
+
+//-----------------------------------------------------------------------------------------------------------
+Console.WriteLine(
+    $"Введите исполнение вентилятора ({string.Join("; ", FanVersion.Names)}): "
+);
+stringFanVersion = Console.ReadLine();
 
 //-----------------------------------------------------------------------------------------------------------
 Console.WriteLine("Введите температуру ежедневной эксплуатации, [°C]: ");
@@ -120,7 +127,7 @@ if (inputAddParameters == "y")
 
     //==========================================================================================================
     Console.WriteLine(
-        $"Введите условный типоразмер ОВД ({string.Join("; ", Sizes.Values)}): "
+        $"Введите условный типоразмер ОВД ({string.Join("; ", Sizes.Names)}): "
     );
 
     var inputSize = Console.ReadLine();
@@ -224,7 +231,8 @@ var userInput = new UserInputRequired
     ImpellerRotationDirection = stringImpellerRotationDirection,
     NominalPower = doubleNominalPower,
     ImpellerRotationSpeed = intImpellerRotationSpeed,
-    CaseExecutionMaterial = stringCaseMaterial
+    CaseExecutionMaterial = stringCaseMaterial,
+    FanVersion = stringFanVersion
 };
 
 FanSelector.DoIt(userInput);

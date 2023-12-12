@@ -18,6 +18,11 @@ public class UserInputRequired : UserInputOptional
     public required double TotalPressureDeviation { get; init; }
 
     /// <summary>
+    /// Исполнение вентилятора
+    /// </summary>
+    public required string? FanVersion { get; init; }
+
+    /// <summary>
     ///     Минимальная температура эксплуатации, которое ввел пользователь; [°C]
     /// </summary>
     public required double FanOperatingMinTemperature { get; init; }

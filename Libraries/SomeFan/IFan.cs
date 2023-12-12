@@ -1,12 +1,13 @@
 ﻿using Libraries.Description_of_objects;
 using SharpProp;
+using System.Globalization;
 using UnitsNet.NumberExtensions.NumberToLength;
 using UnitsNet.NumberExtensions.NumberToRelativeHumidity;
 using UnitsNet.NumberExtensions.NumberToTemperature;
 
-namespace Libraries;
+namespace Libraries.SomeFan;
 
-public class Fan
+public interface IFan
 {
     /// <summary>
     ///     Поправка уровня шума на частотную коррекцию спектра А {ГОСТ 53188.1-2019, стр.15, п.5.5.8, табл.3}
@@ -51,46 +52,28 @@ public class Fan
     /// <summary>
     ///     Расчетная плотность воздуха, температура которого введена пользователем, [кг/м3]
     /// </summary>
-    private readonly IHumidAir _air;
+    private IHumidAir Air =>
+        new HumidAir().WithState(
+            InputHumidAir.Altitude(UserInput.Altitude.GetValueOrDefault().Meters()),
+            InputHumidAir.Temperature(UserInput.FanOperatingMinTemperature.DegreesCelsius()),
+            InputHumidAir.RelativeHumidity(
+                UserInput.RelativeHumidity.GetValueOrDefault().Percent()
+            )
+        );
+
+    public abstract FanData Data { get; }
+
+    public abstract UserInputRequired UserInput { get; }
 
     /// <summary>
     ///     Полное давление воздуха, которое ввел пользователь, [Па]
     /// </summary>
-    private readonly double _inputTotalPressure;
+    public abstract double InputTotalPressure { get; }
 
     /// <summary>
     ///     Объем воздуха введенный пользователем, [м3/ч]
     /// </summary>
-    private readonly double _inputVolumeFlow;
-
-    /// <summary>
-    ///     Объект Fan, в котором вычисляются значения свойств на основе объекта FanData
-    /// </summary>
-    /// <param name="data"></param>
-    /// <param name="userInput"></param>
-    public Fan(FanData data, UserInputRequired userInput)
-    {
-        Data = data;
-        _inputVolumeFlow = userInput.VolumeFlow;
-        _inputTotalPressure = userInput.TotalPressure;
-
-        Name = FormationOfTheFanName.DoIt(data, userInput);
-
-        _air = new HumidAir().WithState(
-            InputHumidAir.Altitude(userInput.Altitude.GetValueOrDefault().Meters()),
-            InputHumidAir.Temperature(userInput.FanOperatingMinTemperature.DegreesCelsius()),
-            InputHumidAir.RelativeHumidity(
-                userInput.RelativeHumidity.GetValueOrDefault().Percent()
-            )
-        );
-    }
-
-    /// <summary>
-    ///     Информация о вентиляторе
-    /// </summary>
-    public FanData Data { get; }
-
-    public string Name { get; }
+    public abstract double InputVolumeFlow { get; }
 
     /// <summary>
     ///     Нормальное плотность воздуха при 20[°C], 50[%], 20 [метрах] над ур.моря
@@ -101,6 +84,8 @@ public class Fan
             InputHumidAir.Temperature(20.DegreesCelsius()),
             InputHumidAir.RelativeHumidity(50.Percent())
         );
+
+    public virtual string? ProjectId => null;
 
     /// <summary>
     ///     Расчетное полное давление воздуха, [Па]
@@ -118,10 +103,12 @@ public class Fan
     /// </summary>
     public double StaticPressure =>
         Math.Round(
+            AirDensityHasChanged(
             TotalPressure
             - 0.5
             * AirInStandardConditions.Density.KilogramsPerCubicMeter
-            * Math.Pow(AirVelocity, 2),
+            * Math.Pow(AirVelocity, 2)
+            ),
             0
         );
 
@@ -141,7 +128,7 @@ public class Fan
     /// </summary>
     public double Efficiency =>
         Math.Round(
-            _inputVolumeFlow / 3600 * TotalPressure / (Power * 1000) * 100,
+            InputVolumeFlow / 3600 * TotalPressure / (Power * 1000) * 100,
             1
         );
 
@@ -149,13 +136,13 @@ public class Fan
     ///     Скорость воздуха, [м/с]
     /// </summary>
     public double AirVelocity =>
-        Math.Round(_inputVolumeFlow / 3600 / Data.InletCrossSection, 1);
+        Math.Round(InputVolumeFlow / 3600 / Data.InletCrossSection, 1);
 
     /// <summary>
     ///     Погрешность подбора по полному давлению воздуха, [%]
     /// </summary>
     public double TotalPressureDeviation =>
-        Math.Round((1 - _inputTotalPressure / TotalPressure) * 100, 2);
+        Math.Round((1 - InputTotalPressure / TotalPressure) * 100, 2);
 
     //____________________________________________________________________________________________________________________________
 
@@ -323,12 +310,12 @@ public class Fan
         PolynomialType coefficients
     ) =>
         //Подставляем коэффициенты в уравнение
-        coefficients.SixthCoefficient * Math.Pow(_inputVolumeFlow, 6)
-        + coefficients.FifthCoefficient * Math.Pow(_inputVolumeFlow, 5)
-        + coefficients.FourthCoefficient * Math.Pow(_inputVolumeFlow, 4)
-        + coefficients.ThirdCoefficient * Math.Pow(_inputVolumeFlow, 3)
-        + coefficients.SecondCoefficient * Math.Pow(_inputVolumeFlow, 2)
-        + coefficients.FirstCoefficient * Math.Pow(_inputVolumeFlow, 1)
+        coefficients.SixthCoefficient * Math.Pow(InputVolumeFlow, 6)
+        + coefficients.FifthCoefficient * Math.Pow(InputVolumeFlow, 5)
+        + coefficients.FourthCoefficient * Math.Pow(InputVolumeFlow, 4)
+        + coefficients.ThirdCoefficient * Math.Pow(InputVolumeFlow, 3)
+        + coefficients.SecondCoefficient * Math.Pow(InputVolumeFlow, 2)
+        + coefficients.FirstCoefficient * Math.Pow(InputVolumeFlow, 1)
         + coefficients.ZeroCoefficient;
 
     /// <summary>
@@ -337,5 +324,9 @@ public class Fan
     /// <param name="parameter"></param>
     /// <returns></returns>
     private double AirDensityHasChanged(double parameter) =>
-        parameter * _air.Density / AirInStandardConditions.Density;
+        parameter * Air.Density / AirInStandardConditions.Density;
 }
+
+
+
+

@@ -19,6 +19,11 @@ public class UserInputValidator : AbstractValidator<UserInputRequired>
             .WithMessage(
                 "Допустимая погрешность подбора по полному давлению воздуха должна быть: >= 0 и <= 30  [%]."
             );
+        RuleFor(input => input.FanVersion)
+            .Must(input => FanVersion.Values.Contains(input))
+            .WithMessage(
+                $"Исполнение вентилятора должно быть: {string.Join(", ", FanVersion.Names)}."
+            );
         RuleFor(input => input.RelativeHumidity)
             .InclusiveBetween(0, 100)
             .When(input => input is not null)

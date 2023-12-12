@@ -1,10 +1,11 @@
 ﻿using Libraries.Description_of_objects;
+using Libraries.SomeFan;
 
 namespace Libraries;
 
 public static class ToPrint
 {
-    public static void Print(List<Fan> sortFans, UserInputRequired userInput)
+    public static void Print(List<IFan> sortFans, UserInputRequired userInput)
     {
         string? endingOfTheWord1;
         string? endingOfTheWord2;
@@ -32,7 +33,7 @@ public static class ToPrint
         {
             Console.WriteLine(
                 $"\n\nТипоразмер: {fan.Data.Size}"
-                + $"\nНаименование: {fan.Name}"
+                + $"\nНаименование: {fan.ProjectId}"
                 + $"\nОбъем воздуха, введенный пользователем: {userInput.VolumeFlow}"
                 + " м3/ч;"
                 + $"\nПолное давление воздуха, введенное пользователем: {userInput.TotalPressure}"

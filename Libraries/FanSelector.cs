@@ -22,7 +22,6 @@ public static class FanSelector
         }*/
 
         var fansList = JsonLoader.Download(UserInputOptional.PathJsonFile);
-        //TODO Добавить витвление. Пользователь указывает назначение вентилятора. В зависимости от этого тут осуществить выбор интерфейса, который возвратит корректное Name.
         var sortFans = SortFans.Sort(fansList, userInput);
         ToPrint.Print(sortFans, userInput);
     }
