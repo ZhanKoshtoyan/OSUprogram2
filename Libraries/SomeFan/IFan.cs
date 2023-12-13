@@ -1,4 +1,5 @@
 ﻿using Libraries.Description_of_objects;
+using Libraries.Description_of_objects.UserInput;
 using SharpProp;
 using System.Globalization;
 using UnitsNet.NumberExtensions.NumberToLength;
@@ -54,16 +55,16 @@ public interface IFan
     /// </summary>
     private IHumidAir Air =>
         new HumidAir().WithState(
-            InputHumidAir.Altitude(UserInput.Altitude.GetValueOrDefault().Meters()),
-            InputHumidAir.Temperature(UserInput.FanOperatingMinTemperature.DegreesCelsius()),
+            InputHumidAir.Altitude(UserInput.UserInputAir.Altitude.GetValueOrDefault().Meters()),
+            InputHumidAir.Temperature(UserInput.UserInputAir.FanOperatingMinTemperature.DegreesCelsius()),
             InputHumidAir.RelativeHumidity(
-                UserInput.RelativeHumidity.GetValueOrDefault().Percent()
+                UserInput.UserInputAir.RelativeHumidity.GetValueOrDefault().Percent()
             )
         );
 
     public abstract FanData Data { get; }
 
-    public abstract UserInputRequired UserInput { get; }
+    public abstract UserInput UserInput { get; }
 
     /// <summary>
     ///     Полное давление воздуха, которое ввел пользователь, [Па]

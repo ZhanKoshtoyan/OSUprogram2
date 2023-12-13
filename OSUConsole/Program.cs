@@ -1,5 +1,6 @@
 ﻿using Libraries;
 using Libraries.Description_of_objects;
+using Libraries.Description_of_objects.UserInput;
 
 double doubleRelativeHumidity = default;
 double doubleAltitude = default;
@@ -10,7 +11,7 @@ string? stringImpellerRotationDirection = default;
 double doubleNominalPower = default;
 int intImpellerRotationSpeed = default;
 string? stringCaseMaterial = default;
-string? stringFanVersion = default;
+
 
 Console.WriteLine("Введите объемный расход воздуха, [м3/ч]: ");
 
@@ -64,9 +65,9 @@ if (!result)
 
 //-----------------------------------------------------------------------------------------------------------
 Console.WriteLine(
-    $"Введите исполнение вентилятора ({string.Join("; ", FanVersion.Names)}): "
+    $"Введите исполнение вентилятора ({string.Join(", ", FanVersion.Names)}): "
 );
-stringFanVersion = Console.ReadLine();
+var stringFanVersion = Console.ReadLine();
 
 //-----------------------------------------------------------------------------------------------------------
 Console.WriteLine("Введите температуру ежедневной эксплуатации, [°C]: ");
@@ -217,22 +218,32 @@ if (inputAddParameters == "y")
 
 //==========================================================================================================
 
-var userInput = new UserInputRequired
+var userInput = new UserInput
 {
-    VolumeFlow = doubleVolumeFlow,
-    TotalPressure = doubleTotalPressure,
-    TotalPressureDeviation = doubleTotalPressureDeviation,
-    FanOperatingMinTemperature = doubleTemperature,
-    RelativeHumidity = doubleRelativeHumidity,
-    Altitude = doubleAltitude,
-    Size = intSize,
-    FanBodyLength = intCaseLength,
-    FanOperatingMaxTemperature = intTemperatureFan,
-    ImpellerRotationDirection = stringImpellerRotationDirection,
-    NominalPower = doubleNominalPower,
-    ImpellerRotationSpeed = intImpellerRotationSpeed,
-    CaseExecutionMaterial = stringCaseMaterial,
-    FanVersion = stringFanVersion
+    UserInputWorkPoint = new UserInputWorkPoint
+    {
+        VolumeFlow = doubleVolumeFlow,
+        TotalPressure = doubleTotalPressure,
+        TotalPressureDeviation = doubleTotalPressureDeviation
+
+    },
+    UserInputAir = new UserInputAir
+    {
+        RelativeHumidity = doubleRelativeHumidity,
+        Altitude = doubleAltitude,
+        FanOperatingMinTemperature = doubleTemperature,
+        FanOperatingMaxTemperature = intTemperatureFan
+    },
+    UserInputFan = new UserInputFan
+    {
+        FanVersion = stringFanVersion,
+        Size = intSize,
+        FanBodyLength = intCaseLength,
+        ImpellerRotationDirection = stringImpellerRotationDirection,
+        NominalPower = doubleNominalPower,
+        ImpellerRotationSpeed = intImpellerRotationSpeed,
+        CaseExecutionMaterial = stringCaseMaterial
+    }
 };
 
 FanSelector.DoIt(userInput);

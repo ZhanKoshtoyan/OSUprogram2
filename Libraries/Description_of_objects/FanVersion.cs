@@ -1,6 +1,6 @@
 ﻿namespace Libraries.Description_of_objects;
 
-public class FanVersion
+public static class FanVersion
 {
     /// <summary>
     ///     Исполнение вентилятора: короткое название

@@ -1,4 +1,5 @@
 ﻿using Libraries.Description_of_objects;
+using Libraries.Description_of_objects.UserInput;
 using System.Globalization;
 
 namespace Libraries.SomeFan;
@@ -6,50 +7,50 @@ namespace Libraries.SomeFan;
 public class OsuDu : IFan
 {
     public FanData Data { get; }
-    public UserInputRequired UserInput { get; }
+    public UserInput UserInput { get; }
 
-    public double InputTotalPressure => UserInput.TotalPressure;
+    public double InputTotalPressure => UserInput.UserInputWorkPoint.TotalPressure;
 
-    public double InputVolumeFlow => UserInput.VolumeFlow;
+    public double InputVolumeFlow => UserInput.UserInputWorkPoint.VolumeFlow;
 
     public string ProjectId
     {
         get
         {
-            var selectedTemperatureFan = UserInput
+            var selectedTemperatureFan = UserInput.UserInputAir
                     .FanOperatingMaxTemperature
                 == 0
                     ? FanOperatingMaxTemperatures.Values.GetValue(0)
-                    : UserInput.FanOperatingMaxTemperature.ToString();
-            var selectedSize = UserInput.Size == 0
+                    : UserInput.UserInputAir.FanOperatingMaxTemperature.ToString();
+            var selectedSize = UserInput.UserInputFan.Size == 0
                 ? Data.Size.PadLeft(3, '0')
-                : UserInput.Size.ToString()!.PadLeft(3, '0');
-            var selectedCaseLength = UserInput.FanBodyLength == 0
+                : UserInput.UserInputFan.Size.ToString()!.PadLeft(3, '0');
+            var selectedCaseLength = UserInput.UserInputFan.FanBodyLength == 0
                 ? FanBodyLengths.Values.GetValue(0)
-                : UserInput.FanBodyLength.ToString();
+                : UserInput.UserInputFan.FanBodyLength.ToString();
             var selectedImpellerRotationDirection =
-                string.IsNullOrEmpty(UserInput.ImpellerRotationDirection)
+                string.IsNullOrEmpty(UserInput.UserInputFan.ImpellerRotationDirection)
                     ? ImpellerRotationDirections.Values.GetValue(0)
-                    : UserInput.ImpellerRotationDirection;
-            var selectedNominalPower = UserInput.NominalPower == 0
+                    : UserInput.UserInputFan.ImpellerRotationDirection;
+            var selectedNominalPower = UserInput.UserInputFan.NominalPower == 0
                 ? (Data.NominalPower * 100)
                 .ToString(CultureInfo.InvariantCulture)
                 .PadLeft(4, '0')
                 : Math.Round(
-                        UserInput.NominalPower.GetValueOrDefault() * 100,
+                        UserInput.UserInputFan.NominalPower.GetValueOrDefault() * 100,
                         1
                     )
                     .ToString(CultureInfo.InvariantCulture)
                     .PadLeft(4, '0');
             var selectedCaseMaterial =
-                string.IsNullOrEmpty(UserInput.CaseExecutionMaterial)
+                string.IsNullOrEmpty(UserInput.UserInputFan.CaseExecutionMaterial)
                     ? CaseExecutionMaterials.Values.GetValue(0)
-                    : UserInput.CaseExecutionMaterial;
-            var roundedImpellerRotationSpeed = UserInput
+                    : UserInput.UserInputFan.CaseExecutionMaterial;
+            var roundedImpellerRotationSpeed = UserInput.UserInputFan
                     .ImpellerRotationSpeed
                 == 0
                     ? Data.NominalImpellerRotationSpeed.ToString().PadLeft(4, '0')
-                    : Math.Round((double) UserInput.ImpellerRotationSpeed
+                    : Math.Round((double) UserInput.UserInputFan.ImpellerRotationSpeed
                                 .GetValueOrDefault(),
                             0
                         )
@@ -69,7 +70,7 @@ public class OsuDu : IFan
         }
     }
 
-    public OsuDu(FanData data, UserInputRequired userInput)
+    public OsuDu(FanData data, UserInput userInput)
     {
         Data = data;
         UserInput = userInput;
