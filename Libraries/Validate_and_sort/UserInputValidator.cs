@@ -21,7 +21,7 @@ public class UserInputValidator : AbstractValidator<UserInput>
                 "Допустимая погрешность подбора по полному давлению воздуха должна быть: >= 0 и <= 30  [%]."
             );
         RuleFor(input => input.UserInputFan.FanVersion)
-            .Must(input => FanVersion.Values.Contains(input))
+            .InclusiveBetween(0, Enum.GetValues(typeof(FanVersion.Values)).Length)
             .WithMessage(
                 $"Исполнение вентилятора должно быть: {string.Join(", ", FanVersion.Names)}."
             );
@@ -50,7 +50,6 @@ public class UserInputValidator : AbstractValidator<UserInput>
                 $"Температура перемещаемой среды ОВД должна быть: {string.Join(", ", FanOperatingMaxTemperatures.Names)} [°C]."
             );
         RuleFor(input => input.UserInputFan.ImpellerRotationDirection)
-            //TODO:Проверить string?
             .Must(input => ImpellerRotationDirections.Values.Contains(input))
             .When(
                 input => !string.IsNullOrEmpty(input.UserInputFan.ImpellerRotationDirection)

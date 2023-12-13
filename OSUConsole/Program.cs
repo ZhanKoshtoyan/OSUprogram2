@@ -68,6 +68,14 @@ Console.WriteLine(
 );
 var stringFanVersion = Console.ReadLine();
 
+result = int.TryParse(stringFanVersion, out var intFanVersion);
+if (!result)
+{
+    throw new ArgumentException(
+        "Значение 'Исполнение вентилятора' не является числом."
+    );
+}
+
 //-----------------------------------------------------------------------------------------------------------
 Console.WriteLine("Введите температуру ежедневной эксплуатации, [°C]: ");
 
@@ -234,7 +242,7 @@ var userInput = new UserInput
     },
     UserInputFan = new UserInputFan
     {
-        FanVersion = stringFanVersion,
+        FanVersion = intFanVersion,
         Size = intSize,
         FanBodyLength = intCaseLength,
         ImpellerRotationDirection = stringImpellerRotationDirection,

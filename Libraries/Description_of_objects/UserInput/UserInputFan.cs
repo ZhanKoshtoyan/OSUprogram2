@@ -5,7 +5,7 @@ public class UserInputFan
     /// <summary>
     ///     Исполнение вентилятора
     /// </summary>
-    public required string? FanVersion { get; set; }
+    public required int? FanVersion { get; set; }
 
     /// <summary>
     ///     Типоразмер вентилятора, которое ввел пользователь

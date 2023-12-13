@@ -2,21 +2,18 @@
 
 public static class FanVersion
 {
-    /// <summary>
-    ///     Исполнение вентилятора: короткое название
-    /// </summary>
-    public static readonly string[] Values =
+    public enum Values
     {
-        "ОСУ-ДУ",
-        "ЕУ"
-    };
+        OsuDu,
+        EuFan
+    }
 
     /// <summary>
     ///     Исполнение вентилятора: полное название
     /// </summary>
     public static readonly string[] Names =
     {
-        "ОСУ-ДУ - Осевой вентилятор дымоудаления",
-        "ЕУ - Вентилятор для ЕУКЦ"
+        "0 = 'ОСУ-ДУ' - Осевой вентилятор дымоудаления",
+        "1 = 'ЕУ' - Вентилятор для ЕУКЦ"
     };
 }
