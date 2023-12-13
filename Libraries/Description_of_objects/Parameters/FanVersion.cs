@@ -1,4 +1,4 @@
-﻿namespace Libraries.Description_of_objects;
+﻿namespace Libraries.Description_of_objects.Parameters;
 
 public static class FanVersion
 {
