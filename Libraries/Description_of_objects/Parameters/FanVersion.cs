@@ -5,7 +5,7 @@ public static class FanVersion
     /// <summary>
     ///     Исполнение вентилятора: короткое название
     /// </summary>
-    public  static  readonly string[] Values =
+    public static readonly string[] Values =
     {
         "ОСУ-ДУ",
         "ЕУ"
@@ -20,4 +20,3 @@ public static class FanVersion
         "ЕУ - Вентилятор для ЕУКЦ"
     };
 }
-

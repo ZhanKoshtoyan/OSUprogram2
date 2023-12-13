@@ -1,6 +1,6 @@
 ﻿namespace Libraries.Description_of_objects;
 
-public abstract record PolynomialType
+public record PolynomialType
 {
     /// <summary>
     ///     Шестой коэффициент уравнения полинома 6-й степени

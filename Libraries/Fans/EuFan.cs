@@ -5,14 +5,19 @@ using System.Globalization;
 
 namespace Libraries.SomeFan;
 
-public class OsuDu : IFan
+public class EuFan : IFan
 {
+    public EuFan(FanData data, UserInput userInput)
+    {
+        Data = data;
+        UserInput = userInput;
+    }
+
     public FanData Data { get; }
     public UserInput UserInput { get; }
 
-    public double InputTotalPressure => UserInput.UserInputWorkPoint.TotalPressure;
-
     public double InputVolumeFlow => UserInput.UserInputWorkPoint.VolumeFlow;
+    public double InputTotalPressure => UserInput.UserInputWorkPoint.TotalPressure;
 
     public string ProjectId
     {
@@ -59,7 +64,7 @@ public class OsuDu : IFan
                         .PadLeft(4, '0');
 
             return string.Format(
-                "ОСУ-ДУ.{0}.{1}.{2}.{3}.{4}.{5}.{6}.Y2",
+                "ЕУ.{0}.{1}.{2}.{3}.{4}.{5}.{6}.Y2",
                 selectedTemperatureFan,
                 selectedSize,
                 selectedCaseLength,
@@ -69,11 +74,5 @@ public class OsuDu : IFan
                 selectedCaseMaterial
             );
         }
-    }
-
-    public OsuDu(FanData data, UserInput userInput)
-    {
-        Data = data;
-        UserInput = userInput;
     }
 }

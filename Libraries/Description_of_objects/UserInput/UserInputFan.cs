@@ -3,7 +3,7 @@
 public class UserInputFan
 {
     /// <summary>
-    /// Исполнение вентилятора
+    ///     Исполнение вентилятора
     /// </summary>
     public required string? FanVersion { get; set; }
 

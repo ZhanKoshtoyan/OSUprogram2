@@ -1,7 +1,7 @@
 ﻿using Libraries.Description_of_objects;
 using Libraries.Description_of_objects.UserInput;
+using Libraries.Methods;
 using SharpProp;
-using System.Globalization;
 using UnitsNet.NumberExtensions.NumberToLength;
 using UnitsNet.NumberExtensions.NumberToRelativeHumidity;
 using UnitsNet.NumberExtensions.NumberToTemperature;
@@ -62,19 +62,19 @@ public interface IFan
             )
         );
 
-    public abstract FanData Data { get; }
+    public FanData Data { get; }
 
-    public abstract UserInput UserInput { get; }
-
-    /// <summary>
-    ///     Полное давление воздуха, которое ввел пользователь, [Па]
-    /// </summary>
-    public abstract double InputTotalPressure { get; }
+    public UserInput UserInput { get; }
 
     /// <summary>
     ///     Объем воздуха введенный пользователем, [м3/ч]
     /// </summary>
-    public abstract double InputVolumeFlow { get; }
+    public double InputVolumeFlow { get; }
+
+    /// <summary>
+    ///     Полное давление воздуха, которое ввел пользователь, [Па]
+    /// </summary>
+    public double InputTotalPressure { get; }
 
     /// <summary>
     ///     Нормальное плотность воздуха при 20[°C], 50[%], 20 [метрах] над ур.моря
@@ -86,15 +86,17 @@ public interface IFan
             InputHumidAir.RelativeHumidity(50.Percent())
         );
 
-    public virtual string? ProjectId => null;
+    public string? ProjectId => null;
 
     /// <summary>
     ///     Расчетное полное давление воздуха, [Па]
     /// </summary>
     public double TotalPressure =>
         Math.Round(
-            AirDensityHasChanged(
-                CalculatePolynomialCoefficients(Data.TotalPressureCoefficients)
+            AirDensityCalculator.AirDensityHasChanged(
+                PolynomialCalculator.CalculatePolynomialCoefficients(Data.TotalPressureCoefficients, InputVolumeFlow),
+                Air,
+                AirInStandardConditions
             ),
             0
         );
@@ -104,11 +106,13 @@ public interface IFan
     /// </summary>
     public double StaticPressure =>
         Math.Round(
-            AirDensityHasChanged(
-            TotalPressure
-            - 0.5
-            * AirInStandardConditions.Density.KilogramsPerCubicMeter
-            * Math.Pow(AirVelocity, 2)
+            AirDensityCalculator.AirDensityHasChanged(
+                TotalPressure
+                - 0.5
+                * AirInStandardConditions.Density.KilogramsPerCubicMeter
+                * Math.Pow(AirVelocity, 2),
+                Air,
+                AirInStandardConditions
             ),
             0
         );
@@ -118,8 +122,10 @@ public interface IFan
     /// </summary>
     public double Power =>
         Math.Round(
-            AirDensityHasChanged(
-                CalculatePolynomialCoefficients(Data.PowerCoefficients)
+            AirDensityCalculator.AirDensityHasChanged(
+                PolynomialCalculator.CalculatePolynomialCoefficients(Data.PowerCoefficients, InputVolumeFlow),
+                Air,
+                AirInStandardConditions
             ),
             2
         );
@@ -152,7 +158,7 @@ public interface IFan
     /// </summary>
     public double OctaveNoise63 =>
         Math.Round(
-            CalculatePolynomialCoefficients(Data.OctaveNoiseCoefficients63),
+            PolynomialCalculator.CalculatePolynomialCoefficients(Data.OctaveNoiseCoefficients63, InputVolumeFlow),
             1
         );
 
@@ -161,7 +167,7 @@ public interface IFan
     /// </summary>
     public double OctaveNoise125 =>
         Math.Round(
-            CalculatePolynomialCoefficients(Data.OctaveNoiseCoefficients125),
+            PolynomialCalculator.CalculatePolynomialCoefficients(Data.OctaveNoiseCoefficients125, InputVolumeFlow),
             1
         );
 
@@ -170,7 +176,7 @@ public interface IFan
     /// </summary>
     public double OctaveNoise250 =>
         Math.Round(
-            CalculatePolynomialCoefficients(Data.OctaveNoiseCoefficients250),
+            PolynomialCalculator.CalculatePolynomialCoefficients(Data.OctaveNoiseCoefficients250, InputVolumeFlow),
             1
         );
 
@@ -179,7 +185,7 @@ public interface IFan
     /// </summary>
     public double OctaveNoise500 =>
         Math.Round(
-            CalculatePolynomialCoefficients(Data.OctaveNoiseCoefficients500),
+            PolynomialCalculator.CalculatePolynomialCoefficients(Data.OctaveNoiseCoefficients500, InputVolumeFlow),
             1
         );
 
@@ -188,7 +194,7 @@ public interface IFan
     /// </summary>
     public double OctaveNoise1000 =>
         Math.Round(
-            CalculatePolynomialCoefficients(Data.OctaveNoiseCoefficients1000),
+            PolynomialCalculator.CalculatePolynomialCoefficients(Data.OctaveNoiseCoefficients1000, InputVolumeFlow),
             1
         );
 
@@ -197,7 +203,7 @@ public interface IFan
     /// </summary>
     public double OctaveNoise2000 =>
         Math.Round(
-            CalculatePolynomialCoefficients(Data.OctaveNoiseCoefficients2000),
+            PolynomialCalculator.CalculatePolynomialCoefficients(Data.OctaveNoiseCoefficients2000, InputVolumeFlow),
             1
         );
 
@@ -206,7 +212,7 @@ public interface IFan
     /// </summary>
     public double OctaveNoise4000 =>
         Math.Round(
-            CalculatePolynomialCoefficients(Data.OctaveNoiseCoefficients4000),
+            PolynomialCalculator.CalculatePolynomialCoefficients(Data.OctaveNoiseCoefficients4000, InputVolumeFlow),
             1
         );
 
@@ -215,7 +221,7 @@ public interface IFan
     /// </summary>
     public double OctaveNoise8000 =>
         Math.Round(
-            CalculatePolynomialCoefficients(Data.OctaveNoiseCoefficients8000),
+            PolynomialCalculator.CalculatePolynomialCoefficients(Data.OctaveNoiseCoefficients8000, InputVolumeFlow),
             1
         );
 
@@ -301,33 +307,4 @@ public interface IFan
             return Math.Round(10 * Math.Log10(sum), 1);
         }
     }
-
-    /// <summary>
-    ///     Расчет значения по известным коэффициентам полинома по методу наименьших квадратов
-    /// </summary>
-    /// <param name="coefficients"></param>
-    /// <returns></returns>
-    private double CalculatePolynomialCoefficients(
-        PolynomialType coefficients
-    ) =>
-        //Подставляем коэффициенты в уравнение
-        coefficients.SixthCoefficient * Math.Pow(InputVolumeFlow, 6)
-        + coefficients.FifthCoefficient * Math.Pow(InputVolumeFlow, 5)
-        + coefficients.FourthCoefficient * Math.Pow(InputVolumeFlow, 4)
-        + coefficients.ThirdCoefficient * Math.Pow(InputVolumeFlow, 3)
-        + coefficients.SecondCoefficient * Math.Pow(InputVolumeFlow, 2)
-        + coefficients.FirstCoefficient * Math.Pow(InputVolumeFlow, 1)
-        + coefficients.ZeroCoefficient;
-
-    /// <summary>
-    ///     Расчет параметра {Pv, N} на новую плотность воздуха
-    /// </summary>
-    /// <param name="parameter"></param>
-    /// <returns></returns>
-    private double AirDensityHasChanged(double parameter) =>
-        parameter * Air.Density / AirInStandardConditions.Density;
 }
-
-
-
-

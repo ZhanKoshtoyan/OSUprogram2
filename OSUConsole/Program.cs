@@ -1,5 +1,4 @@
 ﻿using Libraries;
-using Libraries.Description_of_objects;
 using Libraries.Description_of_objects.Parameters;
 using Libraries.Description_of_objects.UserInput;
 
@@ -12,7 +11,6 @@ string? stringImpellerRotationDirection = default;
 double doubleNominalPower = default;
 int intImpellerRotationSpeed = default;
 string? stringCaseMaterial = default;
-
 
 Console.WriteLine("Введите объемный расход воздуха, [м3/ч]: ");
 
@@ -226,7 +224,6 @@ var userInput = new UserInput
         VolumeFlow = doubleVolumeFlow,
         TotalPressure = doubleTotalPressure,
         TotalPressureDeviation = doubleTotalPressureDeviation
-
     },
     UserInputAir = new UserInputAir
     {

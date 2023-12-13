@@ -74,7 +74,7 @@ public abstract class SortFans
                     f =>
                         Math.Abs(
                             userInput.UserInputFan.NominalPower.GetValueOrDefault()
-                                - f.NominalPower
+                            - f.NominalPower
                         ) < 0.05
                 )
                 .ToList();
@@ -87,8 +87,8 @@ public abstract class SortFans
                     f =>
                         Math.Abs(
                             userInput.UserInputFan.ImpellerRotationSpeed.GetValueOrDefault()
-                                - Math.Round(f.ImpellerRotationSpeed / 500.0)
-                                    * 500
+                            - Math.Round(f.ImpellerRotationSpeed / 500.0)
+                            * 500
                         ) < 0.05
                 )
                 .ToList();
@@ -98,9 +98,10 @@ public abstract class SortFans
 
         List<IFan>? sortDeviationFansList = null;
         // Создаем словарь для соответствия значений userInput.FanVersion и кода
-        Dictionary<string, Action> fanVersionCodeMap = new Dictionary<string, Action>
+        var fanVersionCodeMap = new Dictionary<string, Action>
         {
-            { FanVersion.Values[0], () =>
+            {
+                FanVersion.Values[0], () =>
                 {
                     sortDeviationFansList = sortInputFansList
                         .Select(
@@ -114,7 +115,8 @@ public abstract class SortFans
                         .ToList();
                 }
             },
-            { FanVersion.Values[1], () =>
+            {
+                FanVersion.Values[1], () =>
                 {
                     sortDeviationFansList = sortInputFansList
                         .Select(
@@ -131,11 +133,13 @@ public abstract class SortFans
         };
 
         // Выполняем выбор кода на основе значения userInput.FanVersion
-        if (fanVersionCodeMap.TryGetValue(userInput.UserInputFan.FanVersion ?? throw new InvalidOperationException("Не найден элемент в массиве FanVersion.Values"), out var value))
+        if (fanVersionCodeMap.TryGetValue(userInput.UserInputFan.FanVersion
+                ?? throw new InvalidOperationException("Не найден элемент в массиве FanVersion.Values"),
+                out var value
+            ))
         {
             value.Invoke();
         }
-
 
         /*if (ReferenceEquals(userInput.FanVersion, FanVersion.Values.GetValue(0)))
         {
@@ -164,7 +168,6 @@ public abstract class SortFans
                 )
                 .ToList();
         }*/
-
 
         if (sortDeviationFansList is null)
         {

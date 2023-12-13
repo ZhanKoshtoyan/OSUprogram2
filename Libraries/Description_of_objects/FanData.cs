@@ -3,7 +3,7 @@
 /// <summary>
 ///     Информация о вентиляторе
 /// </summary>
-public abstract record FanData
+public record FanData
 {
     /// <summary>
     ///     Типоразмер
