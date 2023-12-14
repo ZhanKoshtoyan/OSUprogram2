@@ -1,4 +1,5 @@
 ﻿using Libraries.Description_of_objects.UserInput;
+using Libraries.Fans;
 using Libraries.SomeFan;
 
 namespace Libraries;
@@ -38,8 +39,12 @@ public static class ToPrint
                 + " м3/ч;"
                 + $"\nПолное давление воздуха, введенное пользователем: {userInput.UserInputWorkPoint.TotalPressure}"
                 + " Па;"
+                + $"\nРасчетный объем воздуха: {fan.VolumeFlow}"
+                + " Па;"
                 + $"\nРасчетное полное давление воздуха: {fan.TotalPressure}"
                 + " Па;"
+                + $"\nПогрешность подбора по объемному расходу воздуха: {fan.VolumeFlowDeviation:+0.0;-0.0;0}"
+                + " %;"
                 + $"\nПогрешность подбора по полному давлению воздуха: {fan.TotalPressureDeviation:+0.0;-0.0;0}"
                 + " %;"
                 + $"\nРасчетное статическое давление воздуха: {fan.StaticPressure}"

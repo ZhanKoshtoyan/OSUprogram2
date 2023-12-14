@@ -3,7 +3,7 @@ using Libraries.Description_of_objects.Parameters;
 using Libraries.Description_of_objects.UserInput;
 using System.Globalization;
 
-namespace Libraries.SomeFan;
+namespace Libraries.Fans;
 
 public class EuFan : IFan
 {
@@ -15,9 +15,6 @@ public class EuFan : IFan
 
     public FanData Data { get; }
     public UserInput UserInput { get; }
-
-    public double InputVolumeFlow => UserInput.UserInputWorkPoint.VolumeFlow;
-    public double InputTotalPressure => UserInput.UserInputWorkPoint.TotalPressure;
 
     public string ProjectId
     {
@@ -39,7 +36,7 @@ public class EuFan : IFan
                     ? ImpellerRotationDirections.Values.GetValue(0)
                     : UserInput.UserInputFan.ImpellerRotationDirection;
             var selectedNominalPower = UserInput.UserInputFan.NominalPower == 0
-                ? (Data.NominalPower * 100)
+                ? Math.Round(Data.NominalPower * 100,1)
                 .ToString(CultureInfo.InvariantCulture)
                 .PadLeft(4, '0')
                 : Math.Round(

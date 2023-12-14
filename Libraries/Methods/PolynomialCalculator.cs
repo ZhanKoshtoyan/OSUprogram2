@@ -10,7 +10,7 @@ public static class PolynomialCalculator
     /// <param name="coefficients"></param>
     /// <param name="inputVolumeFlow"></param>
     /// <returns></returns>
-    public static double CalculatePolynomialCoefficients(PolynomialType coefficients, double inputVolumeFlow) =>
+    public static double Calculate(PolynomialType coefficients, double inputVolumeFlow) =>
         coefficients.SixthCoefficient * Math.Pow(inputVolumeFlow, 6)
         + coefficients.FifthCoefficient * Math.Pow(inputVolumeFlow, 5)
         + coefficients.FourthCoefficient * Math.Pow(inputVolumeFlow, 4)

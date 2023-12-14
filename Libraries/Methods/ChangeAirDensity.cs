@@ -2,7 +2,7 @@
 
 namespace Libraries.Methods;
 
-public static class AirDensityCalculator
+public static class ChangeAirDensity
 {
     /// <summary>
     ///     Расчет параметра {Pv, N} на новую плотность воздуха
@@ -11,7 +11,7 @@ public static class AirDensityCalculator
     /// <param name="air"></param>
     /// <param name="airInStandardConditions"></param>
     /// <returns></returns>
-    public static double AirDensityHasChanged(
+    public static double Calculate(
         double parameter,
         IHumidAirState air,
         IHumidAirState airInStandardConditions

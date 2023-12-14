@@ -1,6 +1,7 @@
 ﻿using Libraries.Description_of_objects;
 using Libraries.Description_of_objects.Parameters;
 using Libraries.Description_of_objects.UserInput;
+using Libraries.Fans;
 using System.Globalization;
 
 namespace Libraries.SomeFan;
@@ -15,9 +16,6 @@ public class OsuDu : IFan
 
     public FanData Data { get; }
     public UserInput UserInput { get; }
-
-    public double InputVolumeFlow => UserInput.UserInputWorkPoint.VolumeFlow;
-    public double InputTotalPressure => UserInput.UserInputWorkPoint.TotalPressure;
 
     public string ProjectId
     {
@@ -39,7 +37,7 @@ public class OsuDu : IFan
                     ? ImpellerRotationDirections.Values.GetValue(0)
                     : UserInput.UserInputFan.ImpellerRotationDirection;
             var selectedNominalPower = UserInput.UserInputFan.NominalPower == 0
-                ? (Data.NominalPower * 100)
+                ? Math.Round(Data.NominalPower * 100,1)
                 .ToString(CultureInfo.InvariantCulture)
                 .PadLeft(4, '0')
                 : Math.Round(
