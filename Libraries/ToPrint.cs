@@ -1,6 +1,5 @@
 ﻿using Libraries.Description_of_objects.UserInput;
 using Libraries.Fans;
-using Libraries.SomeFan;
 
 namespace Libraries;
 
@@ -39,28 +38,29 @@ public static class ToPrint
                 + " м3/ч;"
                 + $"\nПолное давление воздуха, введенное пользователем: {userInput.UserInputWorkPoint.TotalPressure}"
                 + " Па;"
-                + $"\nРасчетный объем воздуха: {fan.VolumeFlow}"
+                + $"\nРасчетный объем воздуха: {fan.VolumeFlow(fan.ImpellerRotationSpeed)}"
                 + " Па;"
-                + $"\nРасчетное полное давление воздуха: {fan.TotalPressure}"
+                + $"\nРасчетное полное давление воздуха: {fan.TotalPressure(fan.ImpellerRotationSpeed)}"
                 + " Па;"
-                + $"\nПогрешность подбора по объемному расходу воздуха: {fan.VolumeFlowDeviation:+0.0;-0.0;0}"
+                + $"\nПогрешность подбора по объемному расходу воздуха: {fan.VolumeFlowDeviation(fan.VolumeFlow(fan.ImpellerRotationSpeed))
+                    :+0.0;-0.0;0}"
                 + " %;"
-                + $"\nПогрешность подбора по полному давлению воздуха: {fan.TotalPressureDeviation:+0.0;-0.0;0}"
+                + $"\nПогрешность подбора по полному давлению воздуха: {fan.TotalPressureDeviation(fan.TotalPressure(fan.ImpellerRotationSpeed)):+0.0;-0.0;0}"
                 + " %;"
-                + $"\nРасчетное статическое давление воздуха: {fan.StaticPressure}"
+                + $"\nРасчетное статическое давление воздуха: {fan.StaticPressure(fan.ImpellerRotationSpeed)}"
                 + " Па;"
                 + $"\nСкорость вращения крыльчатки: {fan.Data.ImpellerRotationSpeed}"
                 + " об/мин;"
-                + $"\nРасчетная мощность в рабочей точке: {fan.Power}"
+                + $"\nРасчетная мощность в рабочей точке: {fan.Power(fan.ImpellerRotationSpeed)}"
                 + " кВт;"
-                + $"\nРасчетный полный КПД вентилятора: {fan.Efficiency}"
+                + $"\nРасчетный полный КПД вентилятора: {fan.Efficiency(fan.ImpellerRotationSpeed)}"
                 + " %;"
-                + $"\nСкорость воздуха: {fan.AirVelocity}"
+                + $"\nСкорость воздуха: {fan.AirVelocity(fan.VolumeFlow(fan.ImpellerRotationSpeed))}"
                 + " м/с;"
                 + $"\nНоминальная мощность: {fan.Data.NominalPower}"
                 + " кВт;"
-                + $"\nУровень звуковой мощности по октавам: {fan.OctaveNoise63}; {fan.OctaveNoise125}; {fan.OctaveNoise250}; {fan.OctaveNoise500}; {fan.OctaveNoise1000}; {fan.OctaveNoise2000}; {fan.OctaveNoise4000}; {fan.OctaveNoise8000} [дБ];"
-                + $"\nСуммарный уровень звуковой мощности с корректировкой фильтра А частот: 63; 125; 250; 500; 1к; 2к; 4к; 8к [Гц]: {fan.SumNoiseA}"
+                + $"\nУровень звуковой мощности по октавам: {fan.OctaveNoise63(fan.VolumeFlow(fan.ImpellerRotationSpeed))}; {fan.OctaveNoise125(fan.VolumeFlow(fan.ImpellerRotationSpeed))}; {fan.OctaveNoise250(fan.VolumeFlow(fan.ImpellerRotationSpeed))}; {fan.OctaveNoise500(fan.VolumeFlow(fan.ImpellerRotationSpeed))}; {fan.OctaveNoise1000(fan.VolumeFlow(fan.ImpellerRotationSpeed))}; {fan.OctaveNoise2000(fan.VolumeFlow(fan.ImpellerRotationSpeed))}; {fan.OctaveNoise4000(fan.VolumeFlow(fan.ImpellerRotationSpeed))}; {fan.OctaveNoise8000(fan.VolumeFlow(fan.ImpellerRotationSpeed))} [дБ];"
+                + $"\nСуммарный уровень звуковой мощности с корректировкой фильтра А частот: 63; 125; 250; 500; 1к; 2к; 4к; 8к [Гц]: {fan.SumNoiseA(fan.VolumeFlow(fan.ImpellerRotationSpeed))}"
                 + "дБ(А)"
             );
         }

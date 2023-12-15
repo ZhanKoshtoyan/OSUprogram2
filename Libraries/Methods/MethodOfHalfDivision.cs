@@ -23,11 +23,11 @@ public static class MethodOfHalfDivision
                     PolynomialCalculator.Calculate(coefficients, minVolumeFlow)
                     - constDependencePq * Math.Pow(minVolumeFlow, 2)
                 )
-                    *
+                *
                 (
                     PolynomialCalculator.Calculate(coefficients, desiredValue)
                     - constDependencePq * Math.Pow(desiredValue, 2)
-                    )
+                )
                 < 0
             )
             {
@@ -42,6 +42,6 @@ public static class MethodOfHalfDivision
         }
 
         // Console.WriteLine("{0:0.00000000}", desiredValue);
-        return desiredValue;
+        return Math.Round(desiredValue, 0);
     }
 }
