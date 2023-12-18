@@ -71,4 +71,20 @@ public static class SimilarityCalculator
             * Math.Pow(newAirDensity.Density / oldAirDensity.Density, 1),
             0
         );
+
+    public static double SimilarNoise(
+        double oldNoise,
+        int oldImpellerRotationSpeed,
+        int oldSize,
+        int newImpellerRotationSpeed,
+        int newSize
+    ) =>
+        Math.Round(
+            oldNoise +
+             50 * Math.Log10(
+                (double) newImpellerRotationSpeed / oldImpellerRotationSpeed
+            )
+            + 70 * Math.Log10((double) newSize / oldSize),
+            1
+        );
 }

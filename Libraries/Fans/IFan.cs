@@ -89,6 +89,28 @@ public interface IFan
                 : UserInput.UserInputFan.Size
         );
 
+    public int RoundedImpellerRotationSpeed =>
+        (int) (
+            UserInput.UserInputFan.ImpellerRotationSpeed == 0
+                ? Data.NominalImpellerRotationSpeed
+                : Math.Round(
+                    (double)
+                    UserInput.UserInputFan.ImpellerRotationSpeed.GetValueOrDefault(),
+                    0
+                )
+        );
+
+    public int NominalPower =>
+        (int) (
+            UserInput.UserInputFan.NominalPower == 0
+                ? Math.Round(Data.NominalPower * 100, 1)
+                : Math.Round(
+                    UserInput.UserInputFan.NominalPower.GetValueOrDefault()
+                    * 100,
+                    1
+                )
+        );
+
     /// <summary>
     ///     Проектное наименование вентилятора
     /// </summary>
@@ -96,35 +118,38 @@ public interface IFan
 
     public int ImpellerRotationSpeed { get; }
 
+    public double VolumeFlowOnPolynomial =>
+        MethodOfHalfDivision.Calculate(
+            UserInput.UserInputWorkPoint.TotalPressureDeviation,
+            Data.MinVolumeFlow,
+            Data.MaxVolumeFlow,
+            Data.TotalPressureCoefficients,
+            UserInput.UserInputWorkPoint.VolumeFlow,
+            UserInput.UserInputWorkPoint.TotalPressure
+        );
+
     /// <summary>
     ///     Расход Объемного воздуха на кривой вентилятора, эквивалентный зависимости Pv=Q^2 - характеристика сети воздуховода
     /// </summary>
-    public double VolumeFlow(int impellerRotationSpeed) =>
+    public double VolumeFlow =>
         SimilarityCalculator.SimilarVolumeFlow(
-            MethodOfHalfDivision.Calculate(
-                UserInput.UserInputWorkPoint.TotalPressureDeviation,
-                Data.MinVolumeFlow,
-                Data.MaxVolumeFlow,
-                Data.TotalPressureCoefficients,
-                UserInput.UserInputWorkPoint.VolumeFlow,
-                UserInput.UserInputWorkPoint.TotalPressure
-            ),
+            VolumeFlowOnPolynomial,
             Data.ImpellerRotationSpeed,
             Size,
-            impellerRotationSpeed,
+            ImpellerRotationSpeed,
             Size
         );
 
     /// <summary>
     ///     Расчетное полное давление воздуха, [Па]
     /// </summary>
-    public double TotalPressure(int impellerRotationSpeed) =>
+    public double TotalPressure =>
         SimilarityCalculator.SimilarPressure(
-            PolynomialCalculator.Calculate(Data.TotalPressureCoefficients, VolumeFlow(impellerRotationSpeed)),
+            PolynomialCalculator.Calculate(Data.TotalPressureCoefficients, VolumeFlowOnPolynomial),
             Data.ImpellerRotationSpeed,
             Size,
             UserInputAir,
-            impellerRotationSpeed,
+            ImpellerRotationSpeed,
             Size,
             AirInTests
         );
@@ -132,43 +157,35 @@ public interface IFan
     /// <summary>
     ///     Расчетное статическое давление воздуха, [Па]
     /// </summary>
-    public double StaticPressure(int impellerRotationSpeed) =>
-        SimilarityCalculator.SimilarPressure(
-            TotalPressure(impellerRotationSpeed) - 0.5 * AirInTests.Density.KilogramsPerCubicMeter
-            * Math.Pow(AirVelocity(VolumeFlow(impellerRotationSpeed)), 2),
-            Data.ImpellerRotationSpeed,
-            Size,
-            this.UserInputAir,
-            impellerRotationSpeed,
-            Size,
-            ((IFan) this).AirInTests
-        );
+    public double StaticPressure =>
+        Math.Round(TotalPressure - 0.5 * AirInTests.Density.KilogramsPerCubicMeter
+            * Math.Pow(AirVelocity, 2),0);
 
     /// <summary>
     ///     Расчетный полный КПД вентилятора, [%]
     /// </summary>
-    public double Efficiency(int impellerRotationSpeed) =>
-        Math.Round(VolumeFlow(impellerRotationSpeed) / 3600 * TotalPressure(impellerRotationSpeed)
-            / (Power(impellerRotationSpeed) * 1000) * 100,
+    public double Efficiency =>
+        Math.Round(VolumeFlow / 3600 * TotalPressure
+            / (Power * 1000) * 100,
             1
         );
 
     /// <summary>
     ///     Скорость воздуха, [м/с]
     /// </summary>
-    public double AirVelocity(double volumeFlow) =>
-        Math.Round(volumeFlow / 3600 / Data.InletCrossSection, 1);
+    public double AirVelocity =>
+        Math.Round(VolumeFlow / 3600 / Data.InletCrossSection, 1);
 
     /// <summary>
     ///     Расчетная мощность в рабочей точке, [кВт]
     /// </summary>
-    public double Power(int impellerRotationSpeed) =>
+    public double Power =>
         SimilarityCalculator.SimilarPower(
-            PolynomialCalculator.Calculate(Data.PowerCoefficients, VolumeFlow(impellerRotationSpeed)),
+            PolynomialCalculator.Calculate(Data.PowerCoefficients, VolumeFlowOnPolynomial),
             Data.ImpellerRotationSpeed,
             Size,
             UserInputAir,
-            impellerRotationSpeed,
+            ImpellerRotationSpeed,
             Size,
             AirInTests
         );
@@ -176,111 +193,111 @@ public interface IFan
     /// <summary>
     ///     Погрешность подбора по объемному расходу воздуха, [%]
     /// </summary>
-    public double VolumeFlowDeviation(double volumeFlow) =>
-        Math.Round((1 - UserInput.UserInputWorkPoint.VolumeFlow / volumeFlow) * 100, 2);
+    public double VolumeFlowDeviation =>
+        Math.Round((1 - UserInput.UserInputWorkPoint.VolumeFlow / VolumeFlow) * 100, 2);
 
     /// <summary>
     ///     Погрешность подбора по полному давлению воздуха, [%]
     /// </summary>
-    public double TotalPressureDeviation(double totalPressure) =>
-        Math.Round((1 - UserInput.UserInputWorkPoint.TotalPressure / totalPressure) * 100, 2);
+    public double TotalPressureDeviation =>
+        Math.Round((1 - UserInput.UserInputWorkPoint.TotalPressure / TotalPressure) * 100, 2);
 
     //____________________________________________________________________________________________________________________________
 
     /// <summary>
     ///     Уровень звуковой мощности на частоте 63Гц
     /// </summary>
-    public double OctaveNoise63(double volumeFlow) =>
-        Math.Round(
-            PolynomialCalculator.Calculate(
-                Data.OctaveNoiseCoefficients63,
-                volumeFlow
-            ),
-            1
-        );
+    public double OctaveNoise63 =>
+        SimilarityCalculator.SimilarNoise(
+            PolynomialCalculator.Calculate(Data.OctaveNoiseCoefficients63, VolumeFlowOnPolynomial),
+            Data.ImpellerRotationSpeed,
+            Size,
+            ImpellerRotationSpeed,
+            Size
+            );
 
     /// <summary>
     ///     Уровень звуковой мощности на частоте 125Гц
     /// </summary>
-    public double OctaveNoise125(double volumeFlow) =>
-        Math.Round(
-            PolynomialCalculator.Calculate(
-                Data.OctaveNoiseCoefficients125,
-                volumeFlow
-            ),
-            1
+    public double OctaveNoise125 =>
+        SimilarityCalculator.SimilarNoise(
+            PolynomialCalculator.Calculate(Data.OctaveNoiseCoefficients125, VolumeFlowOnPolynomial),
+            Data.ImpellerRotationSpeed,
+            Size,
+            ImpellerRotationSpeed,
+            Size
         );
 
     /// <summary>
     ///     Уровень звуковой мощности на частоте 250Гц
     /// </summary>
-    public double OctaveNoise250(double volumeFlow) =>
-        Math.Round(
-            PolynomialCalculator.Calculate(
-                Data.OctaveNoiseCoefficients250,
-                volumeFlow
-            ),
-            1
+    public double OctaveNoise250 =>
+        SimilarityCalculator.SimilarNoise(
+            PolynomialCalculator.Calculate(Data.OctaveNoiseCoefficients250, VolumeFlowOnPolynomial),
+            Data.ImpellerRotationSpeed,
+            Size,
+            ImpellerRotationSpeed,
+            Size
         );
 
     /// <summary>
     ///     Уровень звуковой мощности на частоте 500Гц
     /// </summary>
-    public double OctaveNoise500(double volumeFlow) =>
-        Math.Round(
-            PolynomialCalculator.Calculate(
-                Data.OctaveNoiseCoefficients500,
-                volumeFlow
-            ),
-            1
+    public double OctaveNoise500 =>
+        SimilarityCalculator.SimilarNoise(
+            PolynomialCalculator.Calculate(Data.OctaveNoiseCoefficients500, VolumeFlowOnPolynomial),
+            Data.ImpellerRotationSpeed,
+            Size,
+            ImpellerRotationSpeed,
+            Size
         );
 
     /// <summary>
     ///     Уровень звуковой мощности на частоте 1000Гц
     /// </summary>
-    public double OctaveNoise1000(double volumeFlow) =>
-        Math.Round(
-            PolynomialCalculator.Calculate(
-                Data.OctaveNoiseCoefficients1000,
-                volumeFlow
-            ),
-            1
+    public double OctaveNoise1000 =>
+        SimilarityCalculator.SimilarNoise(
+            PolynomialCalculator.Calculate(Data.OctaveNoiseCoefficients1000, VolumeFlowOnPolynomial),
+            Data.ImpellerRotationSpeed,
+            Size,
+            ImpellerRotationSpeed,
+            Size
         );
 
     /// <summary>
     ///     Уровень звуковой мощности на частоте 2000Гц
     /// </summary>
-    public double OctaveNoise2000(double volumeFlow) =>
-        Math.Round(
-            PolynomialCalculator.Calculate(
-                Data.OctaveNoiseCoefficients2000,
-                volumeFlow
-            ),
-            1
+    public double OctaveNoise2000 =>
+        SimilarityCalculator.SimilarNoise(
+            PolynomialCalculator.Calculate(Data.OctaveNoiseCoefficients2000, VolumeFlowOnPolynomial),
+            Data.ImpellerRotationSpeed,
+            Size,
+            ImpellerRotationSpeed,
+            Size
         );
 
     /// <summary>
     ///     Уровень звуковой мощности на частоте 4000Гц
     /// </summary>
-    public double OctaveNoise4000(double volumeFlow) =>
-        Math.Round(
-            PolynomialCalculator.Calculate(
-                Data.OctaveNoiseCoefficients4000,
-                volumeFlow
-            ),
-            1
+    public double OctaveNoise4000 =>
+        SimilarityCalculator.SimilarNoise(
+            PolynomialCalculator.Calculate(Data.OctaveNoiseCoefficients4000, VolumeFlowOnPolynomial),
+            Data.ImpellerRotationSpeed,
+            Size,
+            ImpellerRotationSpeed,
+            Size
         );
 
     /// <summary>
     ///     Уровень звуковой мощности на частоте 8000Гц
     /// </summary>
-    public double OctaveNoise8000(double volumeFlow) =>
-        Math.Round(
-            PolynomialCalculator.Calculate(
-                Data.OctaveNoiseCoefficients8000,
-                volumeFlow
-            ),
-            1
+    public double OctaveNoise8000 =>
+        SimilarityCalculator.SimilarNoise(
+            PolynomialCalculator.Calculate(Data.OctaveNoiseCoefficients8000, VolumeFlowOnPolynomial),
+            Data.ImpellerRotationSpeed,
+            Size,
+            ImpellerRotationSpeed,
+            Size
         );
 
     //____________________________________________________________________________________________________________________________
@@ -289,77 +306,79 @@ public interface IFan
     ///     Уровень звуковой мощности частоты 63Гц с поправкой на частотную коррекцию спектра А {ГОСТ 53188.1-2019, стр.15,
     ///     п.5.5.8, табл.3}
     /// </summary>
-    public double OctaveNoiseA63(double volumeFlow) =>
-        Math.Round(OctaveNoise63(volumeFlow) + NoiseCorrectionA63, 1);
+    public double OctaveNoiseA63 =>
+        Math.Round(OctaveNoise63 + NoiseCorrectionA63, 1);
 
     /// <summary>
     ///     Уровень звуковой мощности частоты 125Гц с поправкой на частотную коррекцию спектра А {ГОСТ 53188.1-2019, стр.15,
     ///     п.5.5.8, табл.3}
     /// </summary>
-    public double OctaveNoiseA125(double volumeFlow) =>
-        Math.Round(OctaveNoise125(volumeFlow) + NoiseCorrectionA125, 1);
+    public double OctaveNoiseA125 =>
+        Math.Round(OctaveNoise125 + NoiseCorrectionA125, 1);
 
     /// <summary>
     ///     Уровень звуковой мощности частоты 250Гц с поправкой на частотную коррекцию спектра А {ГОСТ 53188.1-2019, стр.15,
     ///     п.5.5.8, табл.3}
     /// </summary>
-    public double OctaveNoiseA250(double volumeFlow) =>
-        Math.Round(OctaveNoise250(volumeFlow) + NoiseCorrectionA250, 1);
+    public double OctaveNoiseA250 =>
+        Math.Round(OctaveNoise250 + NoiseCorrectionA250, 1);
 
     /// <summary>
     ///     Уровень звуковой мощности частоты 500Гц с поправкой на частотную коррекцию спектра А {ГОСТ 53188.1-2019, стр.15,
     ///     п.5.5.8, табл.3}
     /// </summary>
-    public double OctaveNoiseA500(double volumeFlow) =>
-        Math.Round(OctaveNoise500(volumeFlow) + NoiseCorrectionA500, 1);
+    public double OctaveNoiseA500 =>
+        Math.Round(OctaveNoise500 + NoiseCorrectionA500, 1);
 
     /// <summary>
     ///     Уровень звуковой мощности частоты 1000Гц с поправкой на частотную коррекцию спектра А {ГОСТ 53188.1-2019, стр.15,
     ///     п.5.5.8, табл.3}
     /// </summary>
-    public double OctaveNoiseA1000(double volumeFlow) =>
-        Math.Round(OctaveNoise1000(volumeFlow) + NoiseCorrectionA1000, 1);
+    public double OctaveNoiseA1000 =>
+        Math.Round(OctaveNoise1000 + NoiseCorrectionA1000, 1);
 
     /// <summary>
     ///     Уровень звуковой мощности частоты 2000Гц с поправкой на частотную коррекцию спектра А {ГОСТ 53188.1-2019, стр.15,
     ///     п.5.5.8, табл.3}
     /// </summary>
-    public double OctaveNoiseA2000(double volumeFlow) =>
-        Math.Round(OctaveNoise2000(volumeFlow) + NoiseCorrectionA2000, 1);
+    public double OctaveNoiseA2000 =>
+        Math.Round(OctaveNoise2000 + NoiseCorrectionA2000, 1);
 
     /// <summary>
     ///     Уровень звуковой мощности частоты 4000Гц с поправкой на частотную коррекцию спектра А {ГОСТ 53188.1-2019, стр.15,
     ///     п.5.5.8, табл.3}
     /// </summary>
-    public double OctaveNoiseA4000(double volumeFlow) =>
-        Math.Round(OctaveNoise4000(volumeFlow) + NoiseCorrectionA4000, 1);
+    public double OctaveNoiseA4000 =>
+        Math.Round(OctaveNoise4000 + NoiseCorrectionA4000, 1);
 
     /// <summary>
     ///     Уровень звуковой мощности частоты 8000Гц с поправкой на частотную коррекцию спектра А {ГОСТ 53188.1-2019, стр.15,
     ///     п.5.5.8, табл.3}
     /// </summary>
-    public double OctaveNoiseA8000(double volumeFlow) =>
-        Math.Round(OctaveNoise8000(volumeFlow) + NoiseCorrectionA8000, 1);
+    public double OctaveNoiseA8000 => Math.Round(OctaveNoise8000 + NoiseCorrectionA8000, 1);
 
     /// <summary>
     ///     Суммарный уровень звуковой мощности частот: 63, 125, 250, 500, 1к, 2к, 4к, 8к [Гц]
     /// </summary>
-    public double SumNoiseA(double volumeFlow)
+    public double SumNoiseA
     {
-        var arrayOctaveNoiseA = new List<double>
+        get
         {
-            OctaveNoiseA63(volumeFlow),
-            OctaveNoiseA125(volumeFlow),
-            OctaveNoiseA250(volumeFlow),
-            OctaveNoiseA500(volumeFlow),
-            OctaveNoiseA1000(volumeFlow),
-            OctaveNoiseA2000(volumeFlow),
-            OctaveNoiseA4000(volumeFlow),
-            OctaveNoiseA8000(volumeFlow)
-        };
-        var sum = arrayOctaveNoiseA.Sum(
-            singleOctave => Math.Pow(10, singleOctave / 10)
-        );
-        return Math.Round(10 * Math.Log10(sum), 1);
+            var arrayOctaveNoiseA = new List<double>
+            {
+                OctaveNoiseA63,
+                OctaveNoiseA125,
+                OctaveNoiseA250,
+                OctaveNoiseA500,
+                OctaveNoiseA1000,
+                OctaveNoiseA2000,
+                OctaveNoiseA4000,
+                OctaveNoiseA8000
+            };
+            var sum = arrayOctaveNoiseA.Sum(
+                singleOctave => Math.Pow(10, singleOctave / 10)
+            );
+            return Math.Round(10 * Math.Log10(sum), 1);
+        }
     }
 }

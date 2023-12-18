@@ -17,7 +17,7 @@ public abstract class SortFans
     /// <param name="userInput"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentException"></exception>
-    public static List<IFan> Sort(List<FanData>? fansList, UserInput userInput)
+    public static List<T> Sort<T>(List<FanData>? fansList, UserInput userInput) where T : IFan
     {
         var sortInputFansList = fansList!
             .Where(
@@ -96,7 +96,7 @@ public abstract class SortFans
 
         //------------------------------------------------------------------------------------------------------------
 
-        List<IFan>? sortDeviationFansList = null;
+        List<T>? sortDeviationFansList = null;
         /*// Создаем словарь для соответствия значений userInput.FanVersion и кода
         var fanVersionCodeMap = new Dictionary<string, Action>
         {
@@ -144,34 +144,36 @@ public abstract class SortFans
         switch (userInput.UserInputFan.FanVersion)
         {
             case 0:
-                sortDeviationFansList = sortInputFansList
+                sortDeviationFansList = new List<T>((IEnumerable<T>) sortInputFansList
                     .Select(
                         elementFanData =>
-                            new OsuDu(elementFanData, userInput) as IFan
+                            new OsuDu(elementFanData, userInput)
                     )
                     .Where(
                         fan =>
-                            Math.Abs(fan.TotalPressureDeviation(fan.TotalPressure(fan.ImpellerRotationSpeed)))
+                            Math.Abs(((IFan)fan).TotalPressureDeviation)
                             <= userInput
                                 .UserInputWorkPoint
                                 .TotalPressureDeviation
                     )
-                    .ToList();
+                    .ToList()
+                );
                 break;
             case 1:
-                sortDeviationFansList = sortInputFansList
+                sortDeviationFansList = new List<T>((IEnumerable<T>) sortInputFansList
                     .Select(
                         elementFanData =>
-                            new EuFan(elementFanData, userInput) as IFan
+                            new EuFan(elementFanData, userInput)
                     )
                     .Where(
                         fan =>
-                            Math.Abs(fan.TotalPressureDeviation(fan.TotalPressure(fan.ImpellerRotationSpeed)))
+                            Math.Abs(((IFan)fan).TotalPressureDeviation)
                             <= userInput
                                 .UserInputWorkPoint
                                 .TotalPressureDeviation
                     )
-                    .ToList();
+                    .ToList()
+                );
                 break;
         }
 
@@ -183,9 +185,9 @@ public abstract class SortFans
         }
 
         var orderedNumbers = sortDeviationFansList.OrderBy(
-            fan => Math.Abs(fan.TotalPressureDeviation(fan.TotalPressure(fan.ImpellerRotationSpeed)))
+            fan => Math.Abs(fan.TotalPressureDeviation)
         );
 
-        return new List<IFan>(orderedNumbers);
+        return new List<T>(orderedNumbers);
     }
 }
